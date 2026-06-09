@@ -1,0 +1,98 @@
+@import "tailwindcss";
+
+/* ============================================================
+   全局字体与基础
+   ============================================================ */
+:root {
+  --font-cn: "Noto Sans SC", -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+}
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-cn);
+  background: #f6f9fc;
+  color: #1e293b;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+.tnum { font-variant-numeric: tabular-nums; }
+
+/* 渐变文字 */
+.grad-text {
+  background: linear-gradient(100deg, #1d4ed8, #0891b2 70%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* 统一聚焦光环（表单控件） */
+.ring-focus:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, .12);
+  border-color: #2563eb;
+}
+
+/* 隐藏数字输入框的步进箭头 */
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+input[type=number] { -moz-appearance: textfield; }
+
+/* ============================================================
+   入场动画（仅位移/缩放，不使用 opacity:0，避免首帧闪烁）
+   ============================================================ */
+@keyframes fadeUp { from { transform: translateY(14px); } to { transform: none; } }
+@keyframes popIn  { from { transform: scale(.975); }     to { transform: none; } }
+.anim-fade-up { animation: fadeUp .5s cubic-bezier(.22,1,.36,1) both; }
+.anim-fade-in { animation: fadeUp .5s cubic-bezier(.22,1,.36,1) both; }
+.anim-pop     { animation: popIn .45s cubic-bezier(.22,1,.36,1) both; }
+
+/* 漂浮（Landing 装饰卡片） */
+@keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+.floaty   { animation: floaty 6s ease-in-out infinite; }
+.floaty-2 { animation: floaty 7.5s ease-in-out infinite; }
+
+/* 慢速旋转（加载图标） */
+@keyframes spinSlow { to { transform: rotate(360deg); } }
+.animate-spin-slow { animation: spinSlow 1s linear infinite; }
+
+/* ============================================================
+   原项目保留的动画（标题/图标心跳、水滴悬浮、结果页绘制）
+   ============================================================ */
+@keyframes draw-bg {
+  0% { stroke-dashoffset: 600; opacity: 0; }
+  100% { stroke-dashoffset: 0; opacity: 0.15; }
+}
+@keyframes heartbeat-strong {
+  0% { transform: scale(1); }
+  14% { transform: scale(1.3); }
+  28% { transform: scale(1); }
+  42% { transform: scale(1.3); }
+  70% { transform: scale(1); }
+  100% { transform: scale(1); }
+}
+@keyframes heartbeat {
+  0%,100% { transform: scale(1); }
+  30% { transform: scale(1.12); }
+  45% { transform: scale(1); }
+  60% { transform: scale(1.08); }
+}
+@keyframes float-elastic {
+  0%,100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-3px) scale(1.08); }
+}
+
+.draw-animation {
+  stroke-dasharray: 600;
+  stroke-dashoffset: 600;
+  animation: draw-bg 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+.animate-heartbeat-strong {
+  animation: heartbeat-strong 1.3s ease-in-out infinite;
+  color: var(--color-red-500);
+  transition: color 0.15s ease;
+}
+.animate-heartbeat { animation: heartbeat 1.6s ease-in-out infinite; }
+.animate-float { animation: float-elastic 2.6s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; }
+}
