@@ -16,8 +16,9 @@ export async function extractValue(text, varSpec) {
   }
 }
 
-// 流式解释 / 问答。onDelta(text, isReplace) 增量回调；返回 Promise（done 时 resolve）。
-export async function streamAnswer({ messages, riskContext, question, chunks }, onDelta) {
+// 流式解释 / 问答。onDelta(text, isReplace) 增量回调；onSources(items) 参考来源回调。
+// 返回 Promise（done 时 resolve）。
+export async function streamAnswer({ messages, riskContext, question, chunks }, onDelta, onSources) {
   const r = await fetch('/api/answer', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -40,6 +41,7 @@ export async function streamAnswer({ messages, riskContext, question, chunks }, 
         const j = JSON.parse(line.slice(5).trim());
         if (j.type === 'delta') onDelta(j.text, false);
         else if (j.type === 'replace') onDelta(j.text, true);
+        else if (j.type === 'sources') onSources?.(j.items || []);
         else if (j.type === 'done') return;
       } catch { /* skip */ }
     }

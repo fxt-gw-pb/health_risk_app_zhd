@@ -4,6 +4,7 @@
 import { readJson } from './_lib/http.js';
 import { chatStream, hasKey } from './_lib/deepseek.js';
 import { buildSystemPrompt, scanForbidden, SAFE_REPLACE } from './_lib/safety.js';
+import { retrieve, diseaseScopeOf } from './_lib/retrieve.js';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') { res.statusCode = 405; return res.end(); }
@@ -22,7 +23,14 @@ export default async function handler(req, res) {
     return res.end();
   }
 
-  const system = buildSystemPrompt(riskContext, chunks);
+  // BM25-lite 检索：查询 = 用户问题 + 最近用户消息 + 疾病 + Top5 因子标签
+  const lastUser = [...messages].reverse().find((m) => m.role === 'user')?.content || '';
+  const queryText = [question, lastUser, riskContext?.disease, ...((riskContext?.top5 || []).map((f) => f.label))].filter(Boolean).join(' ');
+  const scope = diseaseScopeOf(riskContext?.disease || queryText);
+  let retrieved = (chunks && chunks.length) ? chunks : retrieve(queryText, { diseaseScope: scope, k: 5 });
+  if (!retrieved.length) retrieved = retrieve(queryText, { k: 5 }); // 兜底：不限疾病再检索
+
+  const system = buildSystemPrompt(riskContext, retrieved);
   const userMsgs = messages.length ? messages : [{ role: 'user', content: question }];
 
   try {
@@ -60,6 +68,11 @@ export default async function handler(req, res) {
           send({ type: 'delta', text: delta });
         } catch { /* 忽略心跳/非 JSON 行 */ }
       }
+    }
+    if (retrieved.length) {
+      send({ type: 'sources', items: retrieved.map((r) => ({
+        title: r.title, year: r.year, org: r.organization_or_journal, url: r.source_url,
+      })) });
     }
     send({ type: 'done' });
     res.end();
