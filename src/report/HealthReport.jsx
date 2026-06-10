@@ -7,6 +7,7 @@ import {
   ChevronDown, ChevronUp, FlaskConical, ShieldAlert,
 } from 'lucide-react';
 import { useStore } from '../app/store';
+import { askWhy } from '../copilot/orchestrate';
 import { OUTCOMES, MODEL_META } from '../kernel';
 import { ACCENT, OUTCOME_UI, levelMeta } from '../lib/uiTokens';
 import RiskBar from '../components/RiskBar';
@@ -156,8 +157,8 @@ export default function HealthReport() {
               </div>
               <div className="mt-3"><RiskBar percent={result.valueNum} level={result.level} /></div>
               <p className="mt-3 rounded-xl bg-white/70 p-3 text-[13px] leading-relaxed text-slate-600">{result.advice}</p>
-              <button onClick={() => dispatch({ type: 'WHY', oid: sel })}
-                className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-[#4F8CFF] px-4 py-2 text-sm font-bold text-white shadow-sm transition active:scale-95">
+              <button onClick={() => askWhy(dispatch, report, sel)} disabled={state.busy}
+                className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-[#4F8CFF] px-4 py-2 text-sm font-bold text-white shadow-sm transition active:scale-95 disabled:opacity-50">
                 <HelpCircle size={15} /> 为什么会这样？
               </button>
             </>

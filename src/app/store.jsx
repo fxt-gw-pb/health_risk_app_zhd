@@ -19,8 +19,16 @@ const initialState = {
   messages: [],            // {id, role, kind, ...}
   pending: null,           // Composer 描述符
   report: null,
+  busy: false,             // AI 流式生成中（禁止并发）
   _id: 0,
 };
+
+// 把确定性 buildWhy 的结构化结果格式化为纯文本（后端不可用时的回退）
+function formatWhy(w) {
+  const lines = w.factors.map((f) => `${f.dir === 'up' ? '↑' : '↓'} ${f.label}${f.note ? '：' + f.note : ''}`);
+  const body = w.factors.length ? lines.join('\n') : '当前各指标都接近人群均值。';
+  return `${body}\n\n${w.advice}\n\n以上为生活方式参考，不替代专业诊疗。`;
+}
 
 // ---- 纯函数：根据当前状态决定「下一步」要 push 的消息和 pending ----
 function pendingForVar(varId) {
@@ -115,6 +123,35 @@ function reducer(state, action) {
     case 'WHY': {
       const why = buildWhy(state.inputs, state.currentLayer, action.oid);
       return push(state, [{ kind: 'why', ...why }], state.pending);
+    }
+
+    // ---- AI 流式（"为什么" / 自由问答）----
+    case 'AI_START': {
+      let _id = state._id;
+      const messages = [...state.messages];
+      if (action.userText) messages.push({ id: ++_id, role: 'user', kind: 'answer', text: action.userText });
+      messages.push({ id: action.id, role: 'ai', kind: 'ai_stream', text: '', sources: null, streaming: true });
+      return { ...state, _id, messages, busy: true };
+    }
+    case 'AI_DELTA':
+      return { ...state, messages: state.messages.map((m) => m.id === action.id
+        ? { ...m, text: action.replace ? action.text : m.text + action.text } : m) };
+    case 'AI_SOURCES':
+      return { ...state, messages: state.messages.map((m) => m.id === action.id ? { ...m, sources: action.items } : m) };
+    case 'AI_DONE':
+      return { ...state, busy: false, messages: state.messages.map((m) => m.id === action.id ? { ...m, streaming: false } : m) };
+    case 'AI_FALLBACK_WHY': {
+      const text = formatWhy(buildWhy(state.inputs, state.currentLayer, action.oid));
+      return { ...state, busy: false, messages: state.messages.map((m) => m.id === action.id ? { ...m, text, streaming: false } : m) };
+    }
+
+    // 自由文本作答无法解析时：保留用户原话 + AI 追问，问题不变
+    case 'INTAKE_CLARIFY': {
+      let _id = state._id;
+      const messages = [...state.messages];
+      messages.push({ id: ++_id, role: 'user', kind: 'answer', text: action.userText });
+      messages.push({ id: ++_id, role: 'ai', kind: 'text', text: action.clarify });
+      return { ...state, _id, messages };
     }
 
     case 'RESET':
