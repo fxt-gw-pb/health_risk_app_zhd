@@ -1,11 +1,10 @@
 name: Deploy to GitHub Pages
 
 on:
-  # 已停用「推送到 main 自动部署 Pages」——本项目改用 Vercel（含 DeepSeek 后端）。
-  # 老 Pages 保持原样不动。如仍需 Pages（纯静态、AI 降级版），在 Actions 页手动
-  # 运行本工作流，或把下面一行换回：
-  #   push:
-  #     branches: [main]
+  # GitHub Pages：纯静态、国内可访问（AI 抽取/RAG 问答会降级为确定性版本）。
+  # 完整 AI（含 DeepSeek 后端）另由 Vercel 部署（vercel.app 国内需代理）。
+  push:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
