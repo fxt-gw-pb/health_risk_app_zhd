@@ -1,0 +1,3 @@
+#!/bin/bash
+# 腾讯云 SCF Web 函数启动文件（必须位于包根目录、可执行）。
+node server/index.mjs

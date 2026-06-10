@@ -20,6 +20,10 @@ server/.env
 server/.env.*
 !server/.env.example
 
+# 后端打包产物（pack-backend.sh 生成）
+backend.zip
+.backend_build/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
