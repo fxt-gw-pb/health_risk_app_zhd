@@ -1,3 +1,4 @@
+// ⚠️ FROZEN MEDICAL KERNEL — 风险分级阈值(20/10) 与换算，禁止修改（入口 src/kernel/index.js）
 // src/utils/formatters.js
 // 纯展示/换算辅助函数。
 import { VARIABLES } from '../riskConfig';

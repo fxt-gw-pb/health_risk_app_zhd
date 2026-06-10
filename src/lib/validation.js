@@ -1,3 +1,4 @@
+// ⚠️ FROZEN MEDICAL KERNEL — 输入范围校验，禁止修改（统一入口 src/kernel/index.js）
 // src/lib/validation.js
 // 输入范围校验（从原 App.jsx 原样搬运）
 export function validateInput(variable, value) {

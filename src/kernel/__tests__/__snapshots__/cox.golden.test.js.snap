@@ -1,0 +1,924 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`医学内核 golden 基线 > calcCoxRisk 输出锁定 — diagnosticTrigger 1`] = `
+{
+  "cvd": {
+    "byLayer": {
+      "1": {
+        "advice": "基于基础信息评估，您的5年新发心血管病风险偏高。强烈建议进行血液检查，进一步明确代谢指标状况。",
+        "baselineSurv": 0.78173399,
+        "level": "高危",
+        "linearPredictor": "0.03570145",
+        "top3": [
+          {
+            "contribution": "0.03684631",
+            "id": "age",
+          },
+          {
+            "contribution": "-0.02098410",
+            "id": "sex",
+          },
+          {
+            "contribution": "0.01983925",
+            "id": "waist",
+          },
+        ],
+        "value": "22.5231",
+      },
+      "2": {
+        "advice": "血液指标显示异常风险。建议进行血管影像学评估（ABI、脉搏波速度等），明确血管病变程度，并尽早咨询专科医生。",
+        "baselineSurv": 0.78173399,
+        "level": "高危",
+        "linearPredictor": "0.23333986",
+        "top3": [
+          {
+            "contribution": "0.15595539",
+            "id": "drugdiab",
+          },
+          {
+            "contribution": "0.04887424",
+            "id": "drughyper",
+          },
+          {
+            "contribution": "0.03684631",
+            "id": "age",
+          },
+        ],
+        "value": "26.7253",
+      },
+      "3": {
+        "advice": "综合评估风险显著偏高。建议前往专科门诊就诊，制定个体化干预方案。",
+        "baselineSurv": 0.78173399,
+        "level": "高危",
+        "linearPredictor": "0.23333986",
+        "top3": [
+          {
+            "contribution": "0.15595539",
+            "id": "drugdiab",
+          },
+          {
+            "contribution": "0.04887424",
+            "id": "drughyper",
+          },
+          {
+            "contribution": "0.03684631",
+            "id": "age",
+          },
+        ],
+        "value": "26.7253",
+      },
+    },
+  },
+  "ht": {
+    "byLayer": {
+      "1": {
+        "advice": "基于基础信息评估，您的5年新发高血压风险偏高。强烈建议进行血液检查，进一步明确代谢指标状况。",
+        "baselineSurv": 0.795492,
+        "level": "高危",
+        "linearPredictor": "0.23765662",
+        "top3": [
+          {
+            "contribution": "0.18843008",
+            "id": "sex",
+          },
+          {
+            "contribution": "0.03367349",
+            "id": "age",
+          },
+          {
+            "contribution": "0.01555304",
+            "id": "bmi",
+          },
+        ],
+        "value": "25.1867",
+      },
+      "2": {
+        "advice": "血液指标显示异常风险。建议进行血管影像学评估（ABI、脉搏波速度等），明确血管病变程度，并尽早咨询专科医生。",
+        "baselineSurv": 0.795492,
+        "level": "高危",
+        "linearPredictor": "0.70539380",
+        "top3": [
+          {
+            "contribution": "0.40502347",
+            "id": "sbp",
+          },
+          {
+            "contribution": "0.18843008",
+            "id": "sex",
+          },
+          {
+            "contribution": "0.14339408",
+            "id": "drugdiab",
+          },
+        ],
+        "value": "37.0750",
+      },
+      "3": {
+        "advice": "综合评估风险显著偏高。建议前往专科门诊就诊，制定个体化干预方案。",
+        "baselineSurv": 0.795492,
+        "level": "高危",
+        "linearPredictor": "0.70539380",
+        "top3": [
+          {
+            "contribution": "0.40502347",
+            "id": "sbp",
+          },
+          {
+            "contribution": "0.18843008",
+            "id": "sex",
+          },
+          {
+            "contribution": "0.14339408",
+            "id": "drugdiab",
+          },
+        ],
+        "value": "37.0750",
+      },
+    },
+  },
+  "t2d": {
+    "byLayer": {
+      "1": {
+        "advice": "目前评估状况良好。您可以继续完善评估以排除隐匿性风险，或保持当前健康生活方式。",
+        "baselineSurv": 0.94767757,
+        "level": "低危",
+        "linearPredictor": "0.07052770",
+        "top3": [
+          {
+            "contribution": "0.05122821",
+            "id": "waist",
+          },
+          {
+            "contribution": "0.00771719",
+            "id": "sex",
+          },
+          {
+            "contribution": "0.00770359",
+            "id": "bmi",
+          },
+        ],
+        "value": "5.6037",
+      },
+      "2": {
+        "advice": "血液指标显示异常风险。建议进行血管影像学评估（ABI、脉搏波速度等），明确血管病变程度，并尽早咨询专科医生。",
+        "baselineSurv": 0.94767757,
+        "level": "高危",
+        "linearPredictor": "1.48784616",
+        "top3": [
+          {
+            "contribution": "1.11182346",
+            "id": "drugdiab",
+          },
+          {
+            "contribution": "0.20111383",
+            "id": "fbg",
+          },
+          {
+            "contribution": "0.14726967",
+            "id": "hba1c",
+          },
+        ],
+        "value": "21.1751",
+      },
+      "3": {
+        "advice": "综合评估风险显著偏高。建议前往专科门诊就诊，制定个体化干预方案。",
+        "baselineSurv": 0.94767757,
+        "level": "高危",
+        "linearPredictor": "1.48784616",
+        "top3": [
+          {
+            "contribution": "1.11182346",
+            "id": "drugdiab",
+          },
+          {
+            "contribution": "0.20111383",
+            "id": "fbg",
+          },
+          {
+            "contribution": "0.14726967",
+            "id": "hba1c",
+          },
+        ],
+        "value": "21.1751",
+      },
+    },
+  },
+}
+`;
+
+exports[`医学内核 golden 基线 > calcCoxRisk 输出锁定 — emptyAllMeans 1`] = `
+{
+  "cvd": {
+    "byLayer": {
+      "1": {
+        "advice": "基于基础信息评估，您的5年新发心血管病风险偏高。强烈建议进行血液检查，进一步明确代谢指标状况。",
+        "baselineSurv": 0.78173399,
+        "level": "高危",
+        "linearPredictor": "0.00000000",
+        "top3": [
+          {
+            "contribution": "0.00000000",
+            "id": "age",
+          },
+          {
+            "contribution": "0.00000000",
+            "id": "sex",
+          },
+          {
+            "contribution": "0.00000000",
+            "id": "waist",
+          },
+        ],
+        "value": "21.8266",
+      },
+      "2": {
+        "advice": "血液指标显示异常风险。建议进行血管影像学评估（ABI、脉搏波速度等），明确血管病变程度，并尽早咨询专科医生。",
+        "baselineSurv": 0.78173399,
+        "level": "高危",
+        "linearPredictor": "0.00000000",
+        "top3": [
+          {
+            "contribution": "0.00000000",
+            "id": "age",
+          },
+          {
+            "contribution": "0.00000000",
+            "id": "sex",
+          },
+          {
+            "contribution": "0.00000000",
+            "id": "waist",
+          },
+        ],
+        "value": "21.8266",
+      },
+      "3": {
+        "advice": "综合评估风险显著偏高。建议前往专科门诊就诊，制定个体化干预方案。",
+        "baselineSurv": 0.78173399,
+        "level": "高危",
+        "linearPredictor": "0.00000000",
+        "top3": [
+          {
+            "contribution": "0.00000000",
+            "id": "age",
+          },
+          {
+            "contribution": "0.00000000",
+            "id": "sex",
+          },
+          {
+            "contribution": "0.00000000",
+            "id": "waist",
+          },
+        ],
+        "value": "21.8266",
+      },
+    },
+  },
+  "ht": {
+    "byLayer": {
+      "1": {
+        "advice": "基于基础信息评估，您的5年新发高血压风险偏高。强烈建议进行血液检查，进一步明确代谢指标状况。",
+        "baselineSurv": 0.795492,
+        "level": "高危",
+        "linearPredictor": "0.00000000",
+        "top3": [
+          {
+            "contribution": "0.00000000",
+            "id": "age",
+          },
+          {
+            "contribution": "0.00000000",
+            "id": "sex",
+          },
+          {
+            "contribution": "0.00000000",
+            "id": "bmi",
+          },
+        ],
+        "value": "20.4508",
+      },
+      "2": {
+        "advice": "血液指标显示异常风险。建议进行血管影像学评估（ABI、脉搏波速度等），明确血管病变程度，并尽早咨询专科医生。",
+        "baselineSurv": 0.795492,
+        "level": "高危",
+        "linearPredictor": "0.00000000",
+        "top3": [
+          {
+            "contribution": "0.00000000",
+            "id": "age",
+          },
+          {
+            "contribution": "0.00000000",
+            "id": "sex",
+          },
+          {
+            "contribution": "0.00000000",
+            "id": "bmi",
+          },
+        ],
+        "value": "20.4508",
+      },
+      "3": {
+        "advice": "综合评估风险显著偏高。建议前往专科门诊就诊，制定个体化干预方案。",
+        "baselineSurv": 0.795492,
+        "level": "高危",
+        "linearPredictor": "0.00000000",
+        "top3": [
+          {
+            "contribution": "0.00000000",
+            "id": "age",
+          },
+          {
+            "contribution": "0.00000000",
+            "id": "sex",
+          },
+          {
+            "contribution": "0.00000000",
+            "id": "bmi",
+          },
+        ],
+        "value": "20.4508",
+      },
+    },
+  },
+  "t2d": {
+    "byLayer": {
+      "1": {
+        "advice": "目前评估状况良好。您可以继续完善评估以排除隐匿性风险，或保持当前健康生活方式。",
+        "baselineSurv": 0.94767757,
+        "level": "低危",
+        "linearPredictor": "0.00000000",
+        "top3": [
+          {
+            "contribution": "0.00000000",
+            "id": "age",
+          },
+          {
+            "contribution": "0.00000000",
+            "id": "sex",
+          },
+          {
+            "contribution": "0.00000000",
+            "id": "bmi",
+          },
+        ],
+        "value": "5.2322",
+      },
+      "2": {
+        "advice": "目前评估状况良好。您可以继续完善评估以排除隐匿性风险，或保持当前健康生活方式。",
+        "baselineSurv": 0.94767757,
+        "level": "低危",
+        "linearPredictor": "0.00000000",
+        "top3": [
+          {
+            "contribution": "0.00000000",
+            "id": "age",
+          },
+          {
+            "contribution": "0.00000000",
+            "id": "sex",
+          },
+          {
+            "contribution": "0.00000000",
+            "id": "bmi",
+          },
+        ],
+        "value": "5.2322",
+      },
+      "3": {
+        "advice": "各项指标均处于理想范围，请保持良好的生活习惯，每年进行常规体检。",
+        "baselineSurv": 0.94767757,
+        "level": "低危",
+        "linearPredictor": "0.00000000",
+        "top3": [
+          {
+            "contribution": "0.00000000",
+            "id": "age",
+          },
+          {
+            "contribution": "0.00000000",
+            "id": "sex",
+          },
+          {
+            "contribution": "0.00000000",
+            "id": "bmi",
+          },
+        ],
+        "value": "5.2322",
+      },
+    },
+  },
+}
+`;
+
+exports[`医学内核 golden 基线 > calcCoxRisk 输出锁定 — highRiskNoDiagnosis 1`] = `
+{
+  "cvd": {
+    "byLayer": {
+      "1": {
+        "advice": "基于基础信息评估，您的5年新发心血管病风险偏高。强烈建议进行血液检查，进一步明确代谢指标状况。",
+        "baselineSurv": 0.78173399,
+        "level": "高危",
+        "linearPredictor": "-0.02819659",
+        "top3": [
+          {
+            "contribution": "0.15782231",
+            "id": "age",
+          },
+          {
+            "contribution": "-0.12936957",
+            "id": "ht_prevalent",
+          },
+          {
+            "contribution": "-0.08043583",
+            "id": "sleephour",
+          },
+        ],
+        "value": "21.2896",
+      },
+      "2": {
+        "advice": "部分指标偏离正常。建议增加有氧运动、改善饮食，并每半年复查。可进行血管影像学检查进一步评估。",
+        "baselineSurv": 0.78173399,
+        "level": "中危",
+        "linearPredictor": "-0.47007858",
+        "top3": [
+          {
+            "contribution": "-0.83609804",
+            "id": "tc",
+          },
+          {
+            "contribution": "0.45924670",
+            "id": "ldl",
+          },
+          {
+            "contribution": "0.15782231",
+            "id": "age",
+          },
+        ],
+        "value": "14.2633",
+      },
+      "3": {
+        "advice": "风险可控。建议保持健康生活方式，定期监测相关指标。",
+        "baselineSurv": 0.78173399,
+        "level": "中危",
+        "linearPredictor": "-0.31197025",
+        "top3": [
+          {
+            "contribution": "-0.83609804",
+            "id": "tc",
+          },
+          {
+            "contribution": "0.45924670",
+            "id": "ldl",
+          },
+          {
+            "contribution": "0.15810832",
+            "id": "cca_imt",
+          },
+        ],
+        "value": "16.4938",
+      },
+    },
+  },
+  "ht": {
+    "byLayer": {
+      "1": {
+        "advice": "存在一定的风险因素。建议完善血液检查，评估血糖、血脂等代谢指标。",
+        "baselineSurv": 0.795492,
+        "level": "中危",
+        "linearPredictor": "-0.10699715",
+        "top3": [
+          {
+            "contribution": "0.18843008",
+            "id": "sex",
+          },
+          {
+            "contribution": "-0.14917936",
+            "id": "cvd_prevalent",
+          },
+          {
+            "contribution": "0.12989749",
+            "id": "age",
+          },
+        ],
+        "value": "18.5824",
+      },
+      "2": {
+        "advice": "部分指标偏离正常。建议增加有氧运动、改善饮食，并每半年复查。可进行血管影像学检查进一步评估。",
+        "baselineSurv": 0.795492,
+        "level": "中危",
+        "linearPredictor": "-0.58860104",
+        "top3": [
+          {
+            "contribution": "-0.60918096",
+            "id": "tc",
+          },
+          {
+            "contribution": "0.19212847",
+            "id": "sbp",
+          },
+          {
+            "contribution": "0.18843008",
+            "id": "sex",
+          },
+        ],
+        "value": "11.9270",
+      },
+      "3": {
+        "advice": "风险可控。建议保持健康生活方式，定期监测相关指标。",
+        "baselineSurv": 0.795492,
+        "level": "中危",
+        "linearPredictor": "-0.58860104",
+        "top3": [
+          {
+            "contribution": "-0.60918096",
+            "id": "tc",
+          },
+          {
+            "contribution": "0.19212847",
+            "id": "sbp",
+          },
+          {
+            "contribution": "0.18843008",
+            "id": "sex",
+          },
+        ],
+        "value": "11.9270",
+      },
+    },
+  },
+  "t2d": {
+    "byLayer": {
+      "1": {
+        "advice": "目前评估状况良好。您可以继续完善评估以排除隐匿性风险，或保持当前健康生活方式。",
+        "baselineSurv": 0.94767757,
+        "level": "低危",
+        "linearPredictor": "0.12069841",
+        "top3": [
+          {
+            "contribution": "0.22007095",
+            "id": "dm2_family",
+          },
+          {
+            "contribution": "0.16153821",
+            "id": "waist",
+          },
+          {
+            "contribution": "-0.13167052",
+            "id": "cvd_prevalent",
+          },
+        ],
+        "value": "5.8833",
+      },
+      "2": {
+        "advice": "目前评估状况良好。您可以继续完善评估以排除隐匿性风险，或保持当前健康生活方式。",
+        "baselineSurv": 0.94767757,
+        "level": "低危",
+        "linearPredictor": "-0.57216150",
+        "top3": [
+          {
+            "contribution": "-1.92690767",
+            "id": "tc",
+          },
+          {
+            "contribution": "1.03334086",
+            "id": "ldl",
+          },
+          {
+            "contribution": "0.22007095",
+            "id": "dm2_family",
+          },
+        ],
+        "value": "2.9871",
+      },
+      "3": {
+        "advice": "各项指标均处于理想范围，请保持良好的生活习惯，每年进行常规体检。",
+        "baselineSurv": 0.94767757,
+        "level": "低危",
+        "linearPredictor": "-0.66386248",
+        "top3": [
+          {
+            "contribution": "-1.92690767",
+            "id": "tc",
+          },
+          {
+            "contribution": "1.03334086",
+            "id": "ldl",
+          },
+          {
+            "contribution": "0.22007095",
+            "id": "dm2_family",
+          },
+        ],
+        "value": "2.7290",
+      },
+    },
+  },
+}
+`;
+
+exports[`医学内核 golden 基线 > calcCoxRisk 输出锁定 — lowRisk 1`] = `
+{
+  "cvd": {
+    "byLayer": {
+      "1": {
+        "advice": "存在一定的风险因素。建议完善血液检查，评估血糖、血脂等代谢指标。",
+        "baselineSurv": 0.78173399,
+        "level": "中危",
+        "linearPredictor": "-0.58201559",
+        "top3": [
+          {
+            "contribution": "-0.41681369",
+            "id": "age",
+          },
+          {
+            "contribution": "-0.12936957",
+            "id": "ht_prevalent",
+          },
+          {
+            "contribution": "-0.07852075",
+            "id": "waist",
+          },
+        ],
+        "value": "12.8546",
+      },
+      "2": {
+        "advice": "目前评估状况良好。您可以继续完善评估以排除隐匿性风险，或保持当前健康生活方式。",
+        "baselineSurv": 0.78173399,
+        "level": "低危",
+        "linearPredictor": "-1.59118028",
+        "top3": [
+          {
+            "contribution": "-0.41681369",
+            "id": "age",
+          },
+          {
+            "contribution": "-0.36962495",
+            "id": "hdl",
+          },
+          {
+            "contribution": "-0.36497054",
+            "id": "tc",
+          },
+        ],
+        "value": "4.8919",
+      },
+      "3": {
+        "advice": "各项指标均处于理想范围，请保持良好的生活习惯，每年进行常规体检。",
+        "baselineSurv": 0.78173399,
+        "level": "低危",
+        "linearPredictor": "-1.61148955",
+        "top3": [
+          {
+            "contribution": "-0.41681369",
+            "id": "age",
+          },
+          {
+            "contribution": "-0.36962495",
+            "id": "hdl",
+          },
+          {
+            "contribution": "-0.36497054",
+            "id": "tc",
+          },
+        ],
+        "value": "4.7959",
+      },
+    },
+  },
+  "ht": {
+    "byLayer": {
+      "1": {
+        "advice": "存在一定的风险因素。建议完善血液检查，评估血糖、血脂等代谢指标。",
+        "baselineSurv": 0.795492,
+        "level": "中危",
+        "linearPredictor": "-0.55883215",
+        "top3": [
+          {
+            "contribution": "-0.32716651",
+            "id": "age",
+          },
+          {
+            "contribution": "-0.16198692",
+            "id": "sex",
+          },
+          {
+            "contribution": "-0.14917936",
+            "id": "cvd_prevalent",
+          },
+        ],
+        "value": "12.2644",
+      },
+      "2": {
+        "advice": "目前评估状况良好。您可以继续完善评估以排除隐匿性风险，或保持当前健康生活方式。",
+        "baselineSurv": 0.795492,
+        "level": "低危",
+        "linearPredictor": "-1.44879904",
+        "top3": [
+          {
+            "contribution": "-0.32716651",
+            "id": "age",
+          },
+          {
+            "contribution": "-0.27837846",
+            "id": "tc",
+          },
+          {
+            "contribution": "-0.27749856",
+            "id": "hdl",
+          },
+        ],
+        "value": "5.2315",
+      },
+      "3": {
+        "advice": "各项指标均处于理想范围，请保持良好的生活习惯，每年进行常规体检。",
+        "baselineSurv": 0.795492,
+        "level": "低危",
+        "linearPredictor": "-1.44879904",
+        "top3": [
+          {
+            "contribution": "-0.32716651",
+            "id": "age",
+          },
+          {
+            "contribution": "-0.27837846",
+            "id": "tc",
+          },
+          {
+            "contribution": "-0.27749856",
+            "id": "hdl",
+          },
+        ],
+        "value": "5.2315",
+      },
+    },
+  },
+  "t2d": {
+    "byLayer": {
+      "1": {
+        "advice": "目前评估状况良好。您可以继续完善评估以排除隐匿性风险，或保持当前健康生活方式。",
+        "baselineSurv": 0.94767757,
+        "level": "低危",
+        "linearPredictor": "-0.88150459",
+        "top3": [
+          {
+            "contribution": "-0.23726129",
+            "id": "age",
+          },
+          {
+            "contribution": "-0.16939179",
+            "id": "waist",
+          },
+          {
+            "contribution": "-0.14882405",
+            "id": "dm2_family",
+          },
+        ],
+        "value": "2.2011",
+      },
+      "2": {
+        "advice": "目前评估状况良好。您可以继续完善评估以排除隐匿性风险，或保持当前健康生活方式。",
+        "baselineSurv": 0.94767757,
+        "level": "低危",
+        "linearPredictor": "-2.20081080",
+        "top3": [
+          {
+            "contribution": "-0.85086017",
+            "id": "tc",
+          },
+          {
+            "contribution": "-0.23726129",
+            "id": "age",
+          },
+          {
+            "contribution": "-0.22636314",
+            "id": "ldl",
+          },
+        ],
+        "value": "0.5932",
+      },
+      "3": {
+        "advice": "各项指标均处于理想范围，请保持良好的生活习惯，每年进行常规体检。",
+        "baselineSurv": 0.94767757,
+        "level": "低危",
+        "linearPredictor": "-2.19487903",
+        "top3": [
+          {
+            "contribution": "-0.85086017",
+            "id": "tc",
+          },
+          {
+            "contribution": "-0.23726129",
+            "id": "age",
+          },
+          {
+            "contribution": "-0.22636314",
+            "id": "ldl",
+          },
+        ],
+        "value": "0.5967",
+      },
+    },
+  },
+}
+`;
+
+exports[`医学内核 golden 基线 > checkDiagnostics 诊断命中锁定 1`] = `
+{
+  "diagnosticTrigger": [
+    {
+      "condition": "ht",
+      "department": "心内科",
+      "name": "高血压",
+      "outcomeToExclude": "ht",
+      "triggeredBy": [
+        "收缩压 ≥ 140 mmHg",
+        "舒张压 ≥ 90 mmHg",
+        "正在使用降压药物",
+      ],
+    },
+    {
+      "condition": "t2d",
+      "department": "内分泌科",
+      "name": "2型糖尿病",
+      "outcomeToExclude": "t2d",
+      "triggeredBy": [
+        "空腹血糖 ≥ 7.0 mmol/L",
+        "糖化血红蛋白 ≥ 6.5%",
+        "正在使用降糖药物",
+      ],
+    },
+  ],
+  "emptyAllMeans": [],
+  "highRiskNoDiagnosis": [],
+  "lowRisk": [],
+}
+`;
+
+exports[`医学内核 golden 基线 > getExclusionReason / isOutcomeExcluded 锁定 1`] = `
+{
+  "diagnosticTrigger": {
+    "cvd": {
+      "excluded": false,
+      "reason": null,
+    },
+    "ht": {
+      "excluded": true,
+      "reason": {
+        "condition": "ht",
+        "outcomeToExclude": "ht",
+      },
+    },
+    "t2d": {
+      "excluded": true,
+      "reason": {
+        "condition": "t2d",
+        "outcomeToExclude": "t2d",
+      },
+    },
+  },
+  "emptyAllMeans": {
+    "cvd": {
+      "excluded": false,
+      "reason": null,
+    },
+    "ht": {
+      "excluded": false,
+      "reason": null,
+    },
+    "t2d": {
+      "excluded": false,
+      "reason": null,
+    },
+  },
+  "highRiskNoDiagnosis": {
+    "cvd": {
+      "excluded": false,
+      "reason": null,
+    },
+    "ht": {
+      "excluded": false,
+      "reason": null,
+    },
+    "t2d": {
+      "excluded": false,
+      "reason": null,
+    },
+  },
+  "lowRisk": {
+    "cvd": {
+      "excluded": false,
+      "reason": null,
+    },
+    "ht": {
+      "excluded": false,
+      "reason": null,
+    },
+    "t2d": {
+      "excluded": false,
+      "reason": null,
+    },
+  },
+}
+`;
