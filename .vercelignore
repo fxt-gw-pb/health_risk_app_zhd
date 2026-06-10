@@ -1,0 +1,5 @@
+# Vercel CLI 部署时不上传这些（密钥/依赖/本地构建产物）
+.env
+.env.*
+node_modules
+dist
