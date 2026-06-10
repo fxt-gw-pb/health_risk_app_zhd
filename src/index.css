@@ -16,6 +16,24 @@ body {
 }
 .tnum { font-variant-numeric: tabular-nums; }
 
+/* ============================================================
+   AI Health Copilot — chat-first 外壳（移动端优先）
+   品牌主色 #4F8CFF / 辅色 #7DD3FC
+   ============================================================ */
+:root { --brand: #4F8CFF; --brand-2: #7DD3FC; }
+html, body, #root { height: 100%; }
+
+/* 隐藏滚动条（聊天线程） */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; }
+
+/* 底部输入区安全区 */
+.safe-b { padding-bottom: max(env(safe-area-inset-bottom), 0.75rem); }
+
+/* 消息入场（轻微上移 + 淡入） */
+@keyframes msgIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.msg-in { animation: msgIn .28s cubic-bezier(.22,1,.36,1) both; }
+
 /* 渐变文字 */
 .grad-text {
   background: linear-gradient(100deg, #1d4ed8, #0891b2 70%);
