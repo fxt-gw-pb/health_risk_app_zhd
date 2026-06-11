@@ -20,9 +20,10 @@ bash scripts/pack-backend.sh   # 生成 backend.zip
 3. **启动文件**：`scf_bootstrap`（已在包里，监听端口 **9000**，与 Web 函数默认一致）。
 4. **环境变量**：加 `DEEPSEEK_API_KEY=<你的密钥>`（可选 `DEEPSEEK_MODEL`/`DEEPSEEK_BASE_URL`）。
 5. **超时时间**：调到 **60 秒以上**（DeepSeek 流式回答较慢，默认 3s 会被掐断）。
-6. 创建后开启 **API 网关触发器**（公网访问），拿到形如
-   `https://service-xxxx-xxxxxx.gz.apigw.tencentcs.com/release` 的地址 —— 这就是后端地址。
-   - 该默认域名一般国内可直接访问、免个人备案（政策偶有调整，以控制台为准）。
+6. 拿公网地址：**API 网关触发器已于 2025-06-30 下线，改用「函数 URL」**。
+   函数详情页 → **「函数 URL」**（或「触发管理」里的函数 URL）→ **启用** →
+   鉴权方式选 **「无需鉴权 / 公开访问」** → 生成形如
+   `https://<函数名>-<随机串>.<地域>.tencentscf.com` 的公网 HTTPS 地址 —— 这就是后端地址。
 7. 自检：浏览器打开 `<后端地址>/health`，应返回 `{"ok":true,...,"hasKey":true}`（`hasKey` 为 true 说明密钥配好了）。
 
 ## 2. 阿里云 FC · 函数计算（Custom Runtime）

@@ -20,10 +20,11 @@ const server = http.createServer((req, res) => {
   setCors(res);
   if (req.method === 'OPTIONS') { res.statusCode = 204; return res.end(); }
 
+  // 用 endsWith 容忍函数 URL 可能带的路径前缀（如 /release/api/extract）。
   const path = (req.url || '').split('?')[0];
-  if (path === '/api/extract') return extract(req, res);
-  if (path === '/api/answer') return answer(req, res);
-  if (path === '/' || path === '/health') {
+  if (path.endsWith('/api/extract')) return extract(req, res);
+  if (path.endsWith('/api/answer')) return answer(req, res);
+  if (path === '/' || path === '' || path.endsWith('/health')) {
     res.setHeader('Content-Type', 'application/json');
     return res.end(JSON.stringify({ ok: true, service: 'health-copilot-api', hasKey: !!process.env.DEEPSEEK_API_KEY }));
   }
