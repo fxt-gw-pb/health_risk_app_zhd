@@ -19,7 +19,7 @@ function SkipBtn({ onClick, disabled }) {
 function SendBtn({ onClick, disabled, busy }) {
   return (
     <button onClick={onClick} disabled={disabled}
-      className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl text-white shadow-md transition active:scale-95 disabled:opacity-40"
+      className="btn-sheen grid h-11 w-11 shrink-0 place-items-center rounded-2xl text-white shadow-md shadow-blue-500/30 transition active:scale-95 disabled:opacity-40"
       style={{ background: 'linear-gradient(135deg,#4F8CFF,#5B95FF)' }}>
       {busy ? <Loader2 size={18} className="animate-spin" /> : <Send size={18} />}
     </button>
@@ -100,7 +100,7 @@ function SportComposer({ dispatch }) {
         </p>
         <SkipBtn onClick={() => dispatch({ type: 'SKIP', varId: 'sport_total' })} />
         <button onClick={() => dispatch({ type: 'SPORT', high, low })} disabled={met == null}
-          className="rounded-2xl px-4 py-2.5 text-sm font-bold text-white shadow-md transition active:scale-95 disabled:opacity-40"
+          className="btn-sheen rounded-2xl px-4 py-2.5 text-sm font-bold text-white shadow-md shadow-blue-500/30 transition active:scale-95 disabled:opacity-40"
           style={{ background: 'linear-gradient(135deg,#4F8CFF,#5B95FF)' }}>
           完成
         </button>
@@ -118,7 +118,7 @@ function ChoiceComposer({ pending, dispatch }) {
         return (
           <button key={o.id} onClick={() => dispatch({ type: 'CHOICE', id: o.id })}
             className={`flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-bold transition active:scale-[0.98] ${
-              primary ? 'text-white shadow-md' : 'border-2 border-slate-200 text-slate-600'}`}
+              primary ? 'btn-sheen text-white shadow-float' : 'border-2 border-slate-200 bg-white text-slate-600 hover:border-[#4F8CFF]/40 hover:text-[#3B7BEA]'}`}
             style={primary ? { background: 'linear-gradient(135deg,#4F8CFF,#5B95FF)' } : undefined}>
             {o.label} <ChevronRight size={16} />
           </button>
@@ -142,8 +142,8 @@ function PostReport({ state, dispatch }) {
       {/* 继续补充下一层指标——报告之后仍能回到问诊，让评估更准 */}
       {canRefine && (
         <button onClick={() => dispatch({ type: 'CHOICE', id: 'next' })} disabled={state.busy}
-          className="flex w-full items-center justify-center gap-2 rounded-2xl py-3.5 text-sm font-bold text-white shadow-md transition active:scale-[0.98] disabled:opacity-40"
-          style={{ background: 'linear-gradient(135deg,#4F8CFF,#5B95FF)' }}>
+          className="btn-sheen flex w-full items-center justify-center gap-2 rounded-2xl py-3.5 text-sm font-bold text-white shadow-float transition active:scale-[0.98] disabled:opacity-40"
+          style={{ background: 'linear-gradient(135deg,#22D3EE,#4F8CFF)' }}>
           <PlusCircle size={17} /> 继续补充「{layerTitle(state.currentLayer + 1)}」让评估更准
         </button>
       )}

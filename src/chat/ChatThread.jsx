@@ -9,9 +9,10 @@ import HealthReport from '../report/HealthReport';
 
 function TypingDots() {
   return (
-    <span className="inline-flex gap-1 py-1.5">
-      {[0, 150, 300].map((d) => (
-        <i key={d} className="h-1.5 w-1.5 animate-bounce rounded-full bg-slate-300" style={{ animationDelay: `${d}ms` }} />
+    <span className="inline-flex items-center gap-1 py-1.5">
+      {[0, 160, 320].map((d) => (
+        <i key={d} className="h-2 w-2 animate-bounce rounded-full"
+          style={{ animationDelay: `${d}ms`, background: 'linear-gradient(135deg,#22D3EE,#4F8CFF)' }} />
       ))}
     </span>
   );
@@ -45,8 +46,8 @@ function AiStreamMessage({ msg }) {
   const empty = !msg.text && msg.streaming;
   return (
     <div className="msg-in flex items-end gap-2">
-      <AiAvatar />
-      <div className="max-w-[88%] rounded-2xl rounded-bl-md bg-white px-4 py-2.5 text-[15px] text-slate-700 shadow-sm ring-1 ring-slate-100">
+      <AiAvatar pulse={msg.streaming} />
+      <div className="max-w-[88%] rounded-2xl rounded-bl-md bg-white px-4 py-2.5 text-[15px] text-slate-700 shadow-premium ring-1 ring-slate-100/80">
         {empty ? <TypingDots /> : <FormattedText text={msg.text} />}
         {msg.streaming && msg.text ? <span className="ml-0.5 inline-block h-4 w-[2px] animate-pulse bg-[#4F8CFF] align-middle" /> : null}
         {msg.sources?.length ? <SourcesList items={msg.sources} /> : null}
