@@ -1,10 +1,10 @@
 // src/chat/Composer.jsx — 底部输入区。问诊支持自由文本（→ extract，确定性兜底）+ 快捷选项；
 // 报告后开放自由问答（流式 RAG）。全部带"后端不可用→回退"降级。
 import { useState } from 'react';
-import { Send, ChevronRight, RotateCcw, Sparkles, Loader2 } from 'lucide-react';
+import { Send, ChevronRight, RotateCcw, Sparkles, Loader2, PlusCircle } from 'lucide-react';
 import { useStore } from '../app/store';
 import { computeSportMet } from '../kernel';
-import { BY_ID } from '../intake/questionFlow';
+import { BY_ID, layerTitle } from '../intake/questionFlow';
 import { submitAnswerText, askQuestion } from '../copilot/orchestrate';
 
 function SkipBtn({ onClick, disabled }) {
@@ -128,16 +128,25 @@ function ChoiceComposer({ pending, dispatch }) {
   );
 }
 
-// 报告后：自由问答（流式 RAG）+ 重新评估
+// 报告后：继续补充下一层指标 + 自由问答（流式 RAG）+ 重新评估
 function PostReport({ state, dispatch }) {
   const [text, setText] = useState('');
+  const canRefine = state.currentLayer < 3;   // 还有更精细的指标可以补充
   const send = () => {
     if (text.trim() === '' || state.busy) return;
     askQuestion(dispatch, state.report, text.trim());
     setText('');
   };
   return (
-    <div className="space-y-2">
+    <div className="space-y-2.5">
+      {/* 继续补充下一层指标——报告之后仍能回到问诊，让评估更准 */}
+      {canRefine && (
+        <button onClick={() => dispatch({ type: 'CHOICE', id: 'next' })} disabled={state.busy}
+          className="flex w-full items-center justify-center gap-2 rounded-2xl py-3.5 text-sm font-bold text-white shadow-md transition active:scale-[0.98] disabled:opacity-40"
+          style={{ background: 'linear-gradient(135deg,#4F8CFF,#5B95FF)' }}>
+          <PlusCircle size={17} /> 继续补充「{layerTitle(state.currentLayer + 1)}」让评估更准
+        </button>
+      )}
       <div className="flex items-center gap-2">
         <input type="text" placeholder={state.busy ? 'AI 正在回答…' : '还有什么健康问题想问我？'}
           className="w-full flex-1 rounded-2xl border-2 border-slate-100 bg-slate-50 px-4 py-3 text-base font-medium text-slate-700 outline-none transition focus:border-[#4F8CFF] focus:bg-white disabled:opacity-60"

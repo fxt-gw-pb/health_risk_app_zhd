@@ -115,9 +115,9 @@ function reducer(state, action) {
         const step = nextStep(s);
         return push(s, [{ kind: 'text', text: LAYER_INTRO[layer] }, ...step.msgs], step.pending);
       }
-      // report
+      // report —— 把本次报告快照存进消息，让历史报告气泡各自显示自己那一层的结果
       const report = buildReport(state.inputs, state.currentLayer);
-      return push({ ...state, report }, [{ kind: 'report' }], { type: 'postreport' });
+      return push({ ...state, report }, [{ kind: 'report', report }], { type: 'postreport' });
     }
 
     case 'WHY': {
