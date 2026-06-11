@@ -5,7 +5,33 @@
 - `server/index.mjs`：`node:http` 服务，复用 `api/` 两个 handler，已开 CORS，监听 `PORT/FC_SERVER_PORT/9000`。
 - `scripts/pack-backend.sh`：生成 `backend.zip`（含 `scf_bootstrap` + `server/` + `api/`），用于上传。
 
-## 0. 先打包
+## 方案一：Render（最省事，直接连仓库，无需打包）
+
+> 海外托管：国内访问偏慢、免费版闲置 15 分钟休眠（冷启动约 50s），但配置最简单。
+> Render 直接 clone 仓库跑 `node server/index.mjs`，**不用 backend.zip**。
+
+**A. 蓝图一键（推荐）**
+1. [render.com](https://render.com) → New → **Blueprint** → 连接仓库 `fxt-gw-pb/health_risk_app_zhd` → Apply（会读根目录 `render.yaml`）。
+2. 部署后进服务 → **Environment** → 填 `DEEPSEEK_API_KEY = <你的密钥>` → 保存（会自动重部署）。
+
+**B. 手动建（蓝图失败时）**
+1. New → **Web Service** → 连接该仓库、分支 `main`。
+2. **Runtime** Node；**Region** Singapore；**Instance Type** Free。
+3. **Build Command**：留空（或 `echo skip`，后端零依赖）。
+4. **Start Command**：`node server/index.mjs`。
+5. **Environment Variables**：`DEEPSEEK_API_KEY = <你的密钥>`（可选 `DEEPSEEK_MODEL=deepseek-chat`、`NODE_VERSION=20`）。
+6. Create → 等部署完，拿到 `https://health-copilot-api-xxxx.onrender.com`。
+
+**自检**：浏览器开 `<onrender 地址>/health` → `{"ok":true,...,"hasKey":true}`。
+（首次或休眠后第一次打开要等 ~50s 冷启动，刷新一两次。）
+
+然后跳到第 3 节设 `VITE_API_BASE`。
+
+---
+
+## 方案二：国内云函数（SCF / FC，国内秒开，需上传 zip）
+
+### 0. 先打包
 
 ```bash
 bash scripts/pack-backend.sh   # 生成 backend.zip

@@ -1,0 +1,22 @@
+# Render 蓝图（Blueprint）——一键部署后端 health-copilot-api。
+# 用法：Render 控制台 → New → Blueprint → 连接本仓库 → Apply；
+#       部署后在服务的 Environment 里填 DEEPSEEK_API_KEY（不入库）。
+# 说明：后端零 npm 依赖，故 buildCommand 为空操作；服务读 Render 注入的 PORT。
+services:
+  - type: web
+    name: health-copilot-api
+    runtime: node
+    plan: free
+    region: singapore            # Render 各区里离国内最近
+    rootDir: .
+    buildCommand: "echo no build needed"
+    startCommand: "node server/index.mjs"
+    healthCheckPath: /health
+    autoDeploy: true             # 推送到 main 自动重新部署
+    envVars:
+      - key: DEEPSEEK_API_KEY
+        sync: false              # 值在 Render 控制台填，不写进仓库
+      - key: DEEPSEEK_MODEL
+        value: deepseek-chat
+      - key: NODE_VERSION
+        value: "20"
