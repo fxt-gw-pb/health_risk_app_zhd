@@ -101,9 +101,10 @@ function Transparency({ oid, result, layer }) {
   );
 }
 
-export default function HealthReport() {
+export default function HealthReport({ report: reportProp }) {
   const { state, dispatch } = useStore();
-  const report = state.report;
+  // 优先用消息自带的快照；兼容旧调用回退到 store.report
+  const report = reportProp || state.report;
   const firstSelectable = report.primary || OIDS.find((o) => !report.exclusions[o]) || 't2d';
   const [sel, setSel] = useState(firstSelectable);
   const ui = OUTCOME_UI[sel];

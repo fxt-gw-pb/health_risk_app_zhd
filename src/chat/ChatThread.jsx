@@ -96,7 +96,7 @@ export default function ChatThread() {
         if (m.kind === 'layer_summary') return <LayerSummaryCard key={m.id} layer={m.layer} text={m.text} />;
         if (m.kind === 'ai_stream') return <AiStreamMessage key={m.id} msg={m} />;
         if (m.kind === 'why') return <WhyMessage key={m.id} msg={m} />;
-        if (m.kind === 'report') return <HealthReport key={m.id} />;
+        if (m.kind === 'report') return <HealthReport key={m.id} report={m.report} />;
         return <MessageBubble key={m.id} role={m.role} text={m.text} />;
       })}
       <div ref={bottomRef} />
