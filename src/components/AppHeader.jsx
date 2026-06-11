@@ -14,7 +14,7 @@ export default function AppHeader() {
           </span>
           <div className="leading-tight">
             <div className="text-[14px] font-black text-slate-800">健康风险助手</div>
-            <div className="text-[10px] text-slate-400">房山家系队列 · Cox 模型</div>
+            <div className="text-[10px] text-slate-400">慢病风险 · 生活方式</div>
           </div>
         </div>
         <div className="flex items-center gap-3">

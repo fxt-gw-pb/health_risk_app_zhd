@@ -1,58 +1,137 @@
 // src/screens/WelcomeScreen.jsx
-import { Sparkles, Droplet, HeartPulse, Heart, ArrowRight, ShieldCheck, Clock } from 'lucide-react';
+// 面向普通居民的高级感首页：讲清「做什么 / 怎么用」，淡化模型与队列等专业术语。
+import {
+  Sparkles, Droplet, HeartPulse, Heart, ArrowRight,
+  MessagesSquare, Gauge, Leaf, Gift, Lock, BookOpenCheck, ChevronRight,
+} from 'lucide-react';
 import { useStore } from '../app/store';
 
-const CHECKS = [
-  { icon: Droplet, label: '糖尿病风险', color: 'text-emerald-500' },
-  { icon: HeartPulse, label: '高血压风险', color: 'text-rose-500' },
-  { icon: Heart, label: '心血管病风险', color: 'text-[#4F8CFF]' },
+const DISEASES = [
+  { icon: Droplet, label: '糖尿病', desc: '了解血糖相关风险', tint: 'text-emerald-500', bg: 'bg-emerald-50' },
+  { icon: HeartPulse, label: '高血压', desc: '关注血压与心脑健康', tint: 'text-rose-500', bg: 'bg-rose-50' },
+  { icon: Heart, label: '心血管病', desc: '评估心脏与血管风险', tint: 'text-[#4F8CFF]', bg: 'bg-blue-50' },
+];
+
+const STEPS = [
+  { icon: MessagesSquare, title: '对话回答', desc: '像聊天一样回答年龄、作息、饮食等问题，不清楚的随时可以跳过。' },
+  { icon: Gauge, title: '看懂风险', desc: '得到一份清晰的风险画像，知道哪些因素对你影响最大。' },
+  { icon: Leaf, title: '收到建议', desc: '获得保守、靠谱的生活方式建议，明白下一步可以怎么做。' },
+];
+
+const TRUST = [
+  { icon: Gift, label: '免费使用' },
+  { icon: Lock, label: '保护隐私' },
+  { icon: BookOpenCheck, label: '通俗易懂' },
 ];
 
 export default function WelcomeScreen() {
   const { dispatch } = useStore();
   return (
-    <div className="relative flex h-[100dvh] flex-col overflow-hidden bg-[#F6F9FC]">
-      <div className="pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full bg-[#4F8CFF]/15 blur-3xl" />
-      <div className="pointer-events-none absolute -right-20 top-1/3 h-72 w-72 rounded-full bg-[#7DD3FC]/20 blur-3xl" />
+    <main className="relative min-h-[100dvh] overflow-x-hidden bg-[#F6F9FC]">
+      {/* 背景柔光 */}
+      <div className="pointer-events-none absolute -left-24 -top-28 h-80 w-80 rounded-full bg-[#4F8CFF]/15 blur-3xl" />
+      <div className="pointer-events-none absolute -right-24 top-44 h-80 w-80 rounded-full bg-[#7DD3FC]/20 blur-3xl" />
 
-      <div className="relative mx-auto flex w-full max-w-md flex-1 flex-col justify-center px-6">
-        <span className="grid h-16 w-16 place-items-center rounded-3xl text-white shadow-xl shadow-blue-500/25 anim-pop" style={{ background: 'linear-gradient(135deg,#4F8CFF,#7DD3FC)' }}>
-          <Sparkles size={30} />
-        </span>
-        <h1 className="mt-6 text-[28px] font-black leading-tight text-slate-900 anim-fade-up">
-          你好，我是你的<br />健康风险助手
+      <div className="relative mx-auto max-w-md px-6 pb-12 pt-14">
+        {/* 品牌徽标 */}
+        <div className="flex items-center gap-2.5 anim-fade-up">
+          <span className="grid h-11 w-11 place-items-center rounded-2xl text-white shadow-lg shadow-blue-500/25 anim-pop"
+            style={{ background: 'linear-gradient(135deg,#4F8CFF,#7DD3FC)' }}>
+            <Sparkles size={22} />
+          </span>
+          <div className="leading-tight">
+            <div className="text-[15px] font-black text-slate-800">健康风险助手</div>
+            <div className="text-[11px] font-medium text-slate-400">慢病风险 · 生活方式</div>
+          </div>
+        </div>
+
+        {/* 主标题 */}
+        <h1 className="mt-9 text-[32px] font-black leading-[1.18] tracking-tight text-slate-900 anim-fade-up">
+          花几分钟，<br />读懂未来 5 年的
+          <span className="grad-brand-text"> 健康风险</span>
         </h1>
-        <p className="mt-3 text-[15px] leading-relaxed text-slate-500 anim-fade-up">
-          我会通过几个简单的问题，帮你评估未来 5 年的慢病风险：
+        <p className="mt-4 text-[15px] leading-relaxed text-slate-500 anim-fade-up">
+          像聊天一样回答几个简单问题，助手会帮你评估
+          <span className="font-semibold text-slate-700">糖尿病、高血压、心血管病</span>
+          的风险，并给出适合你的、能落地的生活方式建议。
         </p>
 
-        <div className="mt-5 space-y-2.5 anim-fade-up">
-          {CHECKS.map((c) => {
-            const Icon = c.icon;
+        {/* 信任标签 */}
+        <div className="mt-5 flex flex-wrap gap-2 anim-fade-up">
+          {TRUST.map((t) => {
+            const Icon = t.icon;
             return (
-              <div key={c.label} className="flex items-center gap-3 rounded-2xl bg-white p-3.5 shadow-sm ring-1 ring-slate-100">
-                <span className={`grid h-9 w-9 place-items-center rounded-xl bg-slate-50 ${c.color}`}><Icon size={18} /></span>
-                <span className="font-bold text-slate-700">{c.label}</span>
-                <ShieldCheck size={18} className="ml-auto text-emerald-500" />
-              </div>
+              <span key={t.label} className="inline-flex items-center gap-1.5 rounded-full border border-slate-200/80 bg-white/70 px-3 py-1.5 text-xs font-semibold text-slate-500 backdrop-blur">
+                <Icon size={13} className="text-[#4F8CFF]" /> {t.label}
+              </span>
             );
           })}
         </div>
 
-        <div className="mt-5 flex items-center gap-2 text-sm text-slate-400 anim-fade-up">
-          <Clock size={15} /> 预计耗时 2~3 分钟 · 风险计算在本机完成
-        </div>
-
+        {/* 主按钮 */}
         <button onClick={() => dispatch({ type: 'START' })}
-          className="mt-7 flex w-full items-center justify-center gap-2 rounded-2xl py-4 text-lg font-bold text-white shadow-xl shadow-blue-500/30 transition active:scale-95 anim-fade-up"
+          className="group mt-7 flex w-full items-center justify-center gap-2 rounded-2xl py-4 text-lg font-bold text-white shadow-xl shadow-blue-500/30 transition active:scale-[0.98] anim-fade-up"
           style={{ background: 'linear-gradient(135deg,#4F8CFF,#5B95FF)' }}>
-          开始评估 <ArrowRight size={20} />
+          开始评估 <ArrowRight size={20} className="transition-transform group-active:translate-x-0.5" />
+        </button>
+        <p className="mt-2.5 text-center text-xs text-slate-400 anim-fade-up">无需注册 · 约 2~3 分钟 · 计算在本机完成</p>
+
+        {/* 评估什么 */}
+        <section className="mt-11">
+          <h2 className="text-sm font-black tracking-wide text-slate-700 anim-fade-up">为你评估三类常见慢病</h2>
+          <div className="mt-3 space-y-2.5">
+            {DISEASES.map((d) => {
+              const Icon = d.icon;
+              return (
+                <div key={d.label} className="flex items-center gap-3.5 rounded-2xl border border-slate-100 bg-white p-3.5 shadow-sm anim-fade-up">
+                  <span className={`grid h-11 w-11 shrink-0 place-items-center rounded-xl ${d.bg} ${d.tint}`}><Icon size={20} /></span>
+                  <div className="min-w-0">
+                    <div className="text-[15px] font-bold text-slate-800">{d.label}</div>
+                    <div className="text-[13px] text-slate-400">{d.desc}</div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* 怎么用 */}
+        <section className="mt-11">
+          <h2 className="text-sm font-black tracking-wide text-slate-700 anim-fade-up">三步，轻松完成</h2>
+          <div className="mt-3.5 space-y-5">
+            {STEPS.map((s, i) => {
+              const Icon = s.icon;
+              return (
+                <div key={s.title} className="flex gap-3.5 anim-fade-up">
+                  <div className="relative flex flex-col items-center">
+                    <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-white text-[#4F8CFF] shadow-sm ring-1 ring-slate-100"><Icon size={18} /></span>
+                    {i < STEPS.length - 1 && <span className="mt-1 w-px flex-1 bg-gradient-to-b from-slate-200 to-transparent" />}
+                  </div>
+                  <div className="pb-1">
+                    <div className="flex items-center gap-2">
+                      <span className="text-[11px] font-black text-[#4F8CFF]">0{i + 1}</span>
+                      <span className="text-[15px] font-bold text-slate-800">{s.title}</span>
+                    </div>
+                    <p className="mt-1 text-[13px] leading-relaxed text-slate-500">{s.desc}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* 二次 CTA */}
+        <button onClick={() => dispatch({ type: 'START' })}
+          className="mt-9 flex w-full items-center justify-center gap-1.5 rounded-2xl border-2 border-[#4F8CFF]/25 bg-white py-3.5 text-base font-bold text-[#3B7BEA] transition active:scale-[0.98] anim-fade-up">
+          现在就开始 <ChevronRight size={18} />
         </button>
 
-        <p className="mt-4 text-center text-[11px] leading-relaxed text-slate-400 anim-fade-up">
-          本工具仅供健康风险参考与科普，不替代医生诊断。
-        </p>
+        {/* 安心说明 */}
+        <div className="mt-8 rounded-2xl bg-white/60 p-4 text-[12px] leading-relaxed text-slate-400 ring-1 ring-slate-100 anim-fade-up">
+          本工具帮助你认识自身健康风险、养成更好的生活习惯，<b className="font-semibold text-slate-500">不替代医生诊断</b>，
+          也不会上传你的身份信息。评估方法参考国内外权威健康指南与研究；如有不适，请及时就医。
+        </div>
       </div>
-    </div>
+    </main>
   );
 }

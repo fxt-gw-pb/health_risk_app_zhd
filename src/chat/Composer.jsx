@@ -56,9 +56,9 @@ function QuestionComposer({ pending, dispatch }) {
       <div className="flex items-center gap-2">
         <div className="relative flex-1">
           <input
-            type="text" inputMode="text" autoFocus
-            placeholder={v.type === 'select' ? '或直接打字描述…' : (v.displayMean != null ? `输入数值或描述（参考均值 ${v.displayMean}）` : '输入数值或描述…')}
-            className="w-full rounded-2xl border-2 border-slate-100 bg-slate-50 px-4 py-3 text-[15px] font-medium text-slate-700 outline-none transition focus:border-[#4F8CFF] focus:bg-white"
+            type="text" inputMode="text"
+            placeholder={v.type === 'select' ? '或直接打字回答…' : (v.displayMean != null ? `输入数值（参考 ${v.displayMean}）或直接描述` : '输入数值或直接描述…')}
+            className="w-full rounded-2xl border-2 border-slate-100 bg-slate-50 px-4 py-3 text-base font-medium text-slate-700 outline-none transition focus:border-[#4F8CFF] focus:bg-white"
             value={text}
             onChange={(e) => setText(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && send()}
@@ -78,7 +78,7 @@ function SportComposer({ dispatch }) {
   const [high, setHigh] = useState('');
   const [low, setLow] = useState('');
   const met = computeSportMet(high, low);
-  const box = 'w-full rounded-2xl border-2 border-slate-100 bg-slate-50 px-3 py-3 text-[15px] font-medium text-slate-700 outline-none transition focus:border-[#4F8CFF] focus:bg-white';
+  const box = 'w-full rounded-2xl border-2 border-slate-100 bg-slate-50 px-3 py-3 text-base font-medium text-slate-700 outline-none transition focus:border-[#4F8CFF] focus:bg-white';
   return (
     <div className="space-y-2.5">
       <div className="grid grid-cols-2 gap-2">
@@ -140,7 +140,7 @@ function PostReport({ state, dispatch }) {
     <div className="space-y-2">
       <div className="flex items-center gap-2">
         <input type="text" placeholder={state.busy ? 'AI 正在回答…' : '还有什么健康问题想问我？'}
-          className="w-full flex-1 rounded-2xl border-2 border-slate-100 bg-slate-50 px-4 py-3 text-[15px] font-medium text-slate-700 outline-none transition focus:border-[#4F8CFF] focus:bg-white disabled:opacity-60"
+          className="w-full flex-1 rounded-2xl border-2 border-slate-100 bg-slate-50 px-4 py-3 text-base font-medium text-slate-700 outline-none transition focus:border-[#4F8CFF] focus:bg-white disabled:opacity-60"
           value={text} disabled={state.busy}
           onChange={(e) => setText(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && send()} />

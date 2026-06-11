@@ -21,7 +21,16 @@ body {
    品牌主色 #4F8CFF / 辅色 #7DD3FC
    ============================================================ */
 :root { --brand: #4F8CFF; --brand-2: #7DD3FC; }
-html, body, #root { height: 100%; }
+html, body { height: 100%; }
+#root { min-height: 100%; }
+
+/* 品牌渐变文字 */
+.grad-brand-text {
+  background: linear-gradient(100deg, #4F8CFF, #3B7BEA 55%, #7DD3FC);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
 
 /* 隐藏滚动条（聊天线程） */
 .no-scrollbar::-webkit-scrollbar { display: none; }
