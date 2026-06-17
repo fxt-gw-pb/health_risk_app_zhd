@@ -8,7 +8,7 @@ import { computeSportMet } from '../kernel';
 import {
   BY_ID, LAYER_INTRO, QUESTION_PROMPTS, nextVarId,
   buildLayerSummary, buildReport, buildWhy, layerTitle,
-  ASSISTANT_INTRO, FREECHAT_GUIDE, answerEcho,
+  ASSISTANT_INTRO, FREECHAT_GUIDE, answerEcho, computeBmi, bmiCategory,
 } from '../intake/questionFlow';
 
 const initialState = {
@@ -35,6 +35,7 @@ function formatWhy(w) {
 function pendingForVar(varId) {
   const v = BY_ID[varId];
   if (varId === 'sport_total') return { type: 'sport', varId };
+  if (varId === 'bmi') return { type: 'bmi', varId };
   if (v.type === 'select') return { type: 'select', varId, options: v.options };
   return { type: 'number', varId, unit: v.unit, displayMean: v.displayMean };
 }
@@ -105,6 +106,18 @@ function reducer(state, action) {
       const confirmMsgs = echo ? [{ kind: 'confirm', text: echo }] : [];
       const step = nextStep(s);
       return push(s, [userBubble, ...confirmMsgs, ...step.msgs], step.pending);
+    }
+
+    case 'BMI': {
+      const bmi = computeBmi(action.height, action.weight);
+      if (bmi == null) return reducer(state, { type: 'SKIP', varId: 'bmi' });
+      const h = Number(action.height), w = Number(action.weight);
+      const s = { ...state, inputs: { ...state.inputs, bmi: bmi.toFixed(1) } };
+      const userBubble = { kind: 'answer', role: 'user', text: `身高 ${h}cm · 体重 ${w}kg` };
+      // 助手算出 BMI 并告知（含中文分类），并写入模型
+      const echo = `已记录 · 身高 ${h}cm、体重 ${w}kg，帮您算得 BMI ≈ ${bmi.toFixed(1)}（${bmiCategory(bmi)}）`;
+      const step = nextStep(s);
+      return push(s, [userBubble, { kind: 'confirm', text: echo }, ...step.msgs], step.pending);
     }
 
     case 'SPORT': {

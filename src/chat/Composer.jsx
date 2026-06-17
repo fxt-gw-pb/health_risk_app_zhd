@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Send, ChevronRight, RotateCcw, Sparkles, Loader2, PlusCircle, Gauge } from 'lucide-react';
 import { useStore } from '../app/store';
 import { computeSportMet } from '../kernel';
-import { BY_ID, layerTitle } from '../intake/questionFlow';
+import { BY_ID, layerTitle, computeBmi, bmiCategory } from '../intake/questionFlow';
 import { submitAnswerText, askQuestion } from '../copilot/orchestrate';
 
 function SkipBtn({ onClick, disabled }) {
@@ -69,6 +69,45 @@ function QuestionComposer({ pending, dispatch }) {
         </div>
         <SkipBtn onClick={() => dispatch({ type: 'SKIP', varId: v.id })} disabled={sending} />
         <SendBtn onClick={send} disabled={text.trim() === '' || sending} busy={sending} />
+      </div>
+    </div>
+  );
+}
+
+// BMI：问身高 + 体重，助手自动算出 BMI（实时预览），写入模型
+function BmiComposer({ dispatch }) {
+  const [height, setHeight] = useState('');
+  const [weight, setWeight] = useState('');
+  const bmi = computeBmi(height, weight);
+  const ok = bmi != null && bmi >= 10 && bmi <= 60;   // 防身高/体重单位填反
+  const box = 'w-full rounded-2xl border-2 border-slate-100 bg-slate-50 px-3 py-3 text-base font-medium text-slate-700 outline-none transition focus:border-[#4F8CFF] focus:bg-white';
+  return (
+    <div className="space-y-2.5">
+      <div className="grid grid-cols-2 gap-2">
+        <div className="relative">
+          <input type="number" inputMode="decimal" placeholder="身高" className={box} value={height} min={0}
+            onChange={(e) => setHeight(e.target.value)} onWheel={(e) => e.target.blur()} />
+          <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[11px] font-bold text-slate-400">cm</span>
+        </div>
+        <div className="relative">
+          <input type="number" inputMode="decimal" placeholder="体重" className={box} value={weight} min={0}
+            onChange={(e) => setWeight(e.target.value)} onWheel={(e) => e.target.blur()} />
+          <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[11px] font-bold text-slate-400">kg</span>
+        </div>
+      </div>
+      <div className="flex items-center gap-2">
+        <p className="flex flex-1 items-center gap-1.5 rounded-xl bg-[#4F8CFF]/5 px-3 py-2 text-xs font-medium text-[#3B7BEA]">
+          <Sparkles size={13} />
+          {bmi == null ? '填写身高体重，自动算出 BMI'
+            : ok ? `自动算出 BMI ≈ ${bmi.toFixed(1)}（${bmiCategory(bmi)}）`
+            : '数值似乎不太合常理，请检查身高/体重单位'}
+        </p>
+        <SkipBtn onClick={() => dispatch({ type: 'SKIP', varId: 'bmi' })} />
+        <button onClick={() => dispatch({ type: 'BMI', height, weight })} disabled={!ok}
+          className="btn-sheen rounded-2xl px-4 py-2.5 text-sm font-bold text-white shadow-md shadow-blue-500/30 transition active:scale-95 disabled:opacity-40"
+          style={{ background: 'linear-gradient(135deg,#4F8CFF,#5B95FF)' }}>
+          完成
+        </button>
       </div>
     </div>
   );
@@ -199,6 +238,7 @@ export default function Composer() {
       <div className="mx-auto max-w-2xl">
         {p.type === 'number' && <QuestionComposer key={p.varId} pending={p} dispatch={dispatch} />}
         {p.type === 'select' && <QuestionComposer key={p.varId} pending={p} dispatch={dispatch} />}
+        {p.type === 'bmi' && <BmiComposer key={p.varId} dispatch={dispatch} />}
         {p.type === 'sport' && <SportComposer key={p.varId} dispatch={dispatch} />}
         {p.type === 'choice' && <ChoiceComposer pending={p} dispatch={dispatch} />}
         {p.type === 'freechat' && <FreeChatComposer state={state} dispatch={dispatch} />}

@@ -53,7 +53,7 @@ export const LAYER_INTRO = {
 export const QUESTION_PROMPTS = {
   age: '请问您今年多大年纪？（岁）',
   sex: '您的性别是？',
-  bmi: '您的 BMI 大概是多少？（体重kg ÷ 身高m²，不清楚可以跳过）',
+  bmi: '请问您的身高（cm）和体重（kg）大约是多少？我来帮您算 BMI ～ 不清楚可以跳过',
   waist: '您的腰围大约多少厘米？',
   sleephour: '您平均每天睡几个小时？',
   sithour: '您平均每天静坐多长时间？（小时）',
@@ -82,6 +82,25 @@ export const QUESTION_PROMPTS = {
   bapwv: '脉搏波传导速度 baPWV 是多少？（cm/s）',
   cca_imt: '颈动脉内中膜厚度 CCA-IMT 是多少？（mm，正常 < 1.0）',
 };
+
+// 身高(cm) + 体重(kg) → BMI。仅为收集输入时的换算便利，不参与任何风险计算；
+// 无效输入返回 null（与 computeSportMet 同风格）。
+export function computeBmi(heightCm, weightKg) {
+  const h = parseFloat(heightCm);
+  const w = parseFloat(weightKg);
+  if (!(h > 0) || !(w > 0)) return null;
+  const m = h / 100;
+  return w / (m * m);
+}
+
+// BMI 中文分类（中国成人标准，仅用于友好告知，不影响模型取值）
+export function bmiCategory(bmi) {
+  if (bmi == null) return '';
+  if (bmi < 18.5) return '偏瘦';
+  if (bmi < 24) return '正常';
+  if (bmi < 28) return '超重';
+  return '肥胖';
+}
 
 // 「我听懂了什么」——把刚纳入模型的取值回显成一句人话（用于答题后的确认气泡）。
 // select 把数字 value 映射回选项中文；number 拼上单位。返回 null 时不显示确认。
