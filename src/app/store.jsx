@@ -90,6 +90,11 @@ function reducer(state, action) {
       ], { type: 'freechat' });
     }
 
+    // 问诊中途跳过、直接自由问答：保留已有对话，开放自由提问
+    case 'SKIP_TO_FREECHAT': {
+      return push(state, [{ kind: 'text', text: '好的，我们先自由聊聊 🙂 ' + FREECHAT_GUIDE }], { type: 'freechat' });
+    }
+
     // 自由问答中切换到正式问诊：清空既有作答、保留对话历史
     case 'BEGIN_INTAKE': {
       const s = { ...state, inputs: {}, skipped: {}, currentLayer: 1, maxLayer: 1, report: null };

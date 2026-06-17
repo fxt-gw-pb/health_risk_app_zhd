@@ -1,7 +1,7 @@
 // src/chat/Composer.jsx — 底部输入区。问诊支持自由文本（→ extract，确定性兜底）+ 快捷选项；
 // 报告后开放自由问答（流式 RAG）。全部带"后端不可用→回退"降级。
 import { useState } from 'react';
-import { Send, ChevronRight, RotateCcw, Sparkles, Loader2, PlusCircle, Gauge } from 'lucide-react';
+import { Send, ChevronRight, RotateCcw, Sparkles, Loader2, PlusCircle, Gauge, MessagesSquare } from 'lucide-react';
 import { useStore } from '../app/store';
 import { computeSportMet } from '../kernel';
 import { BY_ID, layerTitle, computeBmi, bmiCategory } from '../intake/questionFlow';
@@ -229,6 +229,21 @@ function PostReport({ state, dispatch }) {
   );
 }
 
+// 问诊阶段悬浮在输入区上方的小药丸：随时跳过问答、直接自由聊天
+function SkipToChatBar({ dispatch }) {
+  return (
+    <div className="mb-2 flex justify-end">
+      <button onClick={() => dispatch({ type: 'SKIP_TO_FREECHAT' })}
+        className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white/85 px-3.5 py-1.5 text-xs font-semibold text-slate-500 shadow-sm backdrop-blur transition hover:border-[#4F8CFF]/40 hover:text-[#3B7BEA] active:scale-95">
+        <MessagesSquare size={13} /> 跳过问答，直接和助手聊聊
+      </button>
+    </div>
+  );
+}
+
+// 仍处于问诊阶段（尚未进入自由问答 / 报告后）的输入类型
+const INTAKE_TYPES = ['number', 'select', 'bmi', 'sport', 'choice'];
+
 export default function Composer() {
   const { state, dispatch } = useStore();
   const p = state.pending;
@@ -236,6 +251,7 @@ export default function Composer() {
   return (
     <div className="safe-b shrink-0 border-t border-slate-200/70 bg-white/90 px-4 pt-3 backdrop-blur-xl">
       <div className="mx-auto max-w-2xl">
+        {INTAKE_TYPES.includes(p.type) && <SkipToChatBar dispatch={dispatch} />}
         {p.type === 'number' && <QuestionComposer key={p.varId} pending={p} dispatch={dispatch} />}
         {p.type === 'select' && <QuestionComposer key={p.varId} pending={p} dispatch={dispatch} />}
         {p.type === 'bmi' && <BmiComposer key={p.varId} dispatch={dispatch} />}
