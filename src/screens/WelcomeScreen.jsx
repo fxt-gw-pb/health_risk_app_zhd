@@ -76,6 +76,12 @@ export default function WelcomeScreen() {
         </button>
         <p className="mt-2.5 text-center text-xs text-slate-400 anim-fade-up d4">无需注册 · 约 2~3 分钟 · 计算在本机完成</p>
 
+        {/* 次要入口：不想答题的人可以直接和助手自由对话 */}
+        <button onClick={() => dispatch({ type: 'FREE_CHAT' })}
+          className="mt-3 flex w-full items-center justify-center gap-1.5 rounded-2xl border border-slate-200 bg-white/70 py-3 text-sm font-semibold text-slate-500 backdrop-blur transition hover:border-[#4F8CFF]/40 hover:text-[#3B7BEA] active:scale-[0.98] anim-fade-up d4">
+          <MessagesSquare size={16} /> 不想答题？先直接和助手聊聊
+        </button>
+
         {/* 评估什么 */}
         <section className="mt-11">
           <h2 className="text-sm font-black tracking-wide text-slate-700 anim-fade-up">为你评估三类常见慢病</h2>

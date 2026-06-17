@@ -8,6 +8,7 @@ import { computeSportMet } from '../kernel';
 import {
   BY_ID, LAYER_INTRO, QUESTION_PROMPTS, nextVarId,
   buildLayerSummary, buildReport, buildWhy, layerTitle,
+  ASSISTANT_INTRO, FREECHAT_GUIDE, answerEcho,
 } from '../intake/questionFlow';
 
 const initialState = {
@@ -72,6 +73,26 @@ function reducer(state, action) {
     case 'START': {
       let s = { ...initialState, screen: 'chat' };
       const step = nextStep(s);
+      return push(s, [
+        { kind: 'text', text: ASSISTANT_INTRO },
+        { kind: 'text', text: LAYER_INTRO[1] },
+        ...step.msgs,
+      ], step.pending);
+    }
+
+    // 不答题、直接进入自由问答（首页「直接聊聊」入口）
+    case 'FREE_CHAT': {
+      let s = { ...initialState, screen: 'chat' };
+      return push(s, [
+        { kind: 'text', text: ASSISTANT_INTRO },
+        { kind: 'text', text: FREECHAT_GUIDE },
+      ], { type: 'freechat' });
+    }
+
+    // 自由问答中切换到正式问诊：清空既有作答、保留对话历史
+    case 'BEGIN_INTAKE': {
+      const s = { ...state, inputs: {}, skipped: {}, currentLayer: 1, maxLayer: 1, report: null };
+      const step = nextStep(s);
       return push(s, [{ kind: 'text', text: LAYER_INTRO[1] }, ...step.msgs], step.pending);
     }
 
@@ -79,8 +100,11 @@ function reducer(state, action) {
       // value 存为字符串，语义与原版 select/number 一致
       const s = { ...state, inputs: { ...state.inputs, [action.varId]: String(action.value) } };
       const userBubble = { kind: 'answer', role: 'user', text: action.display };
+      // 答题后回显「我把什么纳入了模型」——尤其当 AI 把口语化输入理解成了某个具体取值
+      const echo = answerEcho(action.varId, action.value);
+      const confirmMsgs = echo ? [{ kind: 'confirm', text: echo }] : [];
       const step = nextStep(s);
-      return push(s, [userBubble, ...step.msgs], step.pending);
+      return push(s, [userBubble, ...confirmMsgs, ...step.msgs], step.pending);
     }
 
     case 'SPORT': {

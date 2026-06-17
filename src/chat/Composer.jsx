@@ -1,7 +1,7 @@
 // src/chat/Composer.jsx — 底部输入区。问诊支持自由文本（→ extract，确定性兜底）+ 快捷选项；
 // 报告后开放自由问答（流式 RAG）。全部带"后端不可用→回退"降级。
 import { useState } from 'react';
-import { Send, ChevronRight, RotateCcw, Sparkles, Loader2, PlusCircle } from 'lucide-react';
+import { Send, ChevronRight, RotateCcw, Sparkles, Loader2, PlusCircle, Gauge } from 'lucide-react';
 import { useStore } from '../app/store';
 import { computeSportMet } from '../kernel';
 import { BY_ID, layerTitle } from '../intake/questionFlow';
@@ -128,6 +128,33 @@ function ChoiceComposer({ pending, dispatch }) {
   );
 }
 
+// 未答题就进入的自由问答：开放提问 + 随时一键开始正式评估
+function FreeChatComposer({ state, dispatch }) {
+  const [text, setText] = useState('');
+  const send = () => {
+    if (text.trim() === '' || state.busy) return;
+    askQuestion(dispatch, state.report, text.trim());   // report 为空，自由问答
+    setText('');
+  };
+  return (
+    <div className="space-y-2.5">
+      <button onClick={() => dispatch({ type: 'BEGIN_INTAKE' })} disabled={state.busy}
+        className="btn-sheen flex w-full items-center justify-center gap-2 rounded-2xl py-3.5 text-sm font-bold text-white shadow-float transition active:scale-[0.98] disabled:opacity-40"
+        style={{ background: 'linear-gradient(135deg,#22D3EE,#4F8CFF)' }}>
+        <Gauge size={17} /> 开始健康评估，生成我的风险报告
+      </button>
+      <div className="flex items-center gap-2">
+        <input type="text" placeholder={state.busy ? 'AI 正在回答…' : '问我健康、饮食、运动方面的问题…'}
+          className="w-full flex-1 rounded-2xl border-2 border-slate-100 bg-slate-50 px-4 py-3 text-base font-medium text-slate-700 outline-none transition focus:border-[#4F8CFF] focus:bg-white disabled:opacity-60"
+          value={text} disabled={state.busy}
+          onChange={(e) => setText(e.target.value)}
+          onKeyDown={(e) => e.key === 'Enter' && send()} />
+        <SendBtn onClick={send} disabled={text.trim() === '' || state.busy} busy={state.busy} />
+      </div>
+    </div>
+  );
+}
+
 // 报告后：继续补充下一层指标 + 自由问答（流式 RAG）+ 重新评估
 function PostReport({ state, dispatch }) {
   const [text, setText] = useState('');
@@ -174,6 +201,7 @@ export default function Composer() {
         {p.type === 'select' && <QuestionComposer key={p.varId} pending={p} dispatch={dispatch} />}
         {p.type === 'sport' && <SportComposer key={p.varId} dispatch={dispatch} />}
         {p.type === 'choice' && <ChoiceComposer pending={p} dispatch={dispatch} />}
+        {p.type === 'freechat' && <FreeChatComposer state={state} dispatch={dispatch} />}
         {p.type === 'postreport' && <PostReport state={state} dispatch={dispatch} />}
       </div>
     </div>

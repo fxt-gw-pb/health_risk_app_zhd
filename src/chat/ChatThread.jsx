@@ -1,6 +1,6 @@
 // src/chat/ChatThread.jsx
 import { useEffect, useRef } from 'react';
-import { HelpCircle, TrendingUp, TrendingDown } from 'lucide-react';
+import { HelpCircle, TrendingUp, TrendingDown, Check } from 'lucide-react';
 import { useStore } from '../app/store';
 import MessageBubble, { AiAvatar } from './MessageBubble';
 import LayerSummaryCard from './LayerSummaryCard';
@@ -56,6 +56,17 @@ function AiStreamMessage({ msg }) {
   );
 }
 
+// 答题确认条：把刚纳入模型的取值轻量回显（口语化输入被 AI 理解后尤其有用）
+function ConfirmChip({ text }) {
+  return (
+    <div className="msg-in flex justify-center">
+      <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-[12px] font-medium text-emerald-600 ring-1 ring-emerald-100">
+        <Check size={12} strokeWidth={3} /> {text}
+      </span>
+    </div>
+  );
+}
+
 // 确定性「为什么」回退消息（后端不可用时仍可用）
 function WhyMessage({ msg }) {
   return (
@@ -94,6 +105,7 @@ export default function ChatThread() {
     <div className="mx-auto flex max-w-2xl flex-col gap-3 px-4 py-5">
       {state.messages.map((m) => {
         if (m.kind === 'answer') return <MessageBubble key={m.id} role="user" text={m.text} muted={m.muted} />;
+        if (m.kind === 'confirm') return <ConfirmChip key={m.id} text={m.text} />;
         if (m.kind === 'layer_summary') return <LayerSummaryCard key={m.id} layer={m.layer} text={m.text} />;
         if (m.kind === 'ai_stream') return <AiStreamMessage key={m.id} msg={m} />;
         if (m.kind === 'why') return <WhyMessage key={m.id} msg={m} />;

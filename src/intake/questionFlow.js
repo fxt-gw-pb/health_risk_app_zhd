@@ -34,9 +34,17 @@ export const LAYER_VARS = {
   3: ['abi', 'bapwv', 'cca_imt'],
 };
 
-// 每层开场白
+// 助手自我介绍 + 边界声明（开场必现，结构化问诊与自由问答共用）
+export const ASSISTANT_INTRO =
+  '您好，我是您的健康生活方式助手 🌿 我可以帮您评估慢病风险、解读体检指标、给出生活方式建议；但我不提供疾病诊断或治疗方案，所有回答仅供参考、不能替代医生，如有不适请及时就医。';
+
+// 自由问答开场引导（讲清：可直接提问，随时也能开始正式评估）
+export const FREECHAT_GUIDE =
+  '您可以直接问我健康、饮食、运动等生活方式方面的问题。想做一次完整的风险评估时，点下面的「开始健康评估」就可以～';
+
+// 每层开场白（第 1 层讲清「先答题→再自由提问」的流程）
 export const LAYER_INTRO = {
-  1: '我们先从基本信息和生活方式开始。每一题都可以点「跳过」，我会用人群平均值来估算 🙂',
+  1: '我们先用几个简单问题了解您的基本信息和生活方式，答完就能看到您的风险评估、并自由向我提问。每一题都可以点「跳过」，跳过的我会用人群平均值来估算 🙂',
   2: '接下来是一些血液检查指标 —— 有体检报告就照着填，没有可以跳过。',
   3: '最后是血管影像学检查（ACI / 脉搏波 / 颈动脉内中膜厚度）。做过的话填一下，评估会更准。',
 };
@@ -74,6 +82,18 @@ export const QUESTION_PROMPTS = {
   bapwv: '脉搏波传导速度 baPWV 是多少？（cm/s）',
   cca_imt: '颈动脉内中膜厚度 CCA-IMT 是多少？（mm，正常 < 1.0）',
 };
+
+// 「我听懂了什么」——把刚纳入模型的取值回显成一句人话（用于答题后的确认气泡）。
+// select 把数字 value 映射回选项中文；number 拼上单位。返回 null 时不显示确认。
+export function answerEcho(varId, value) {
+  const v = BY_ID[varId];
+  if (!v || value === undefined || value === null || value === '') return null;
+  if (v.type === 'select') {
+    const opt = (v.options || []).find((o) => String(o.value) === String(value));
+    return `已记录 · ${v.label}：${opt ? opt.label : value}`;
+  }
+  return `已记录 · ${v.label}：${value}${v.unit || ''}`;
+}
 
 // 下一道未作答（未填且未跳过）的题
 export function nextVarId(layer, inputs, skipped) {
