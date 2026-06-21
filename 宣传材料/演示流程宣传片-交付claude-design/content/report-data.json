@@ -1,0 +1,368 @@
+{
+  "note": "由冻结医学内核 (calcCoxRisk) 真实计算，请勿手改数字。persona: 李先生 男 58",
+  "persona": {
+    "name": "李先生",
+    "sex": "男",
+    "age": 58,
+    "height": 174,
+    "weight": 86,
+    "bmi": "28.4"
+  },
+  "modelMeta": {
+    "cohortName": "房山家系队列",
+    "followUpYears": "2016—2024",
+    "analysisMethods": [
+      "Cox 比例风险回归（稳健标准误，按家系聚类校正）",
+      "弹性网络回归变量筛选（α=0.5）",
+      "三层嵌套模型逐层 C-index / NRI / IDI 评估"
+    ]
+  },
+  "layer1": {
+    "layer": 1,
+    "summary": "您的未来 5 年新发心血管病风险偏高。主要与脑卒中家族史、腰围有关。",
+    "primary": "cvd",
+    "layerSummary": "根据目前的信息，糖尿病家族史、性别对你的风险影响相对较大。其中像年龄、家族史这类无法改变，但可以通过管理体重、运动和饮食等可改变因素来降低整体风险。继续补充更精细的指标后，我会给出更准确的评估。",
+    "alerts": [],
+    "cards": {
+      "t2d": {
+        "name": "新发糖尿病",
+        "predictionYears": 5,
+        "value": "6.6",
+        "level": "低危",
+        "excluded": null,
+        "baselineSurv": 0.947678,
+        "linearPredictor": 0.2365,
+        "cIndex": {
+          "1": 0.667,
+          "2": 0.722,
+          "3": 0.733
+        },
+        "sampleSize": 3904,
+        "events": 961,
+        "top5": [
+          {
+            "id": "dm2_family",
+            "label": "糖尿病家族史",
+            "dir": "up",
+            "contribution": 0.2201
+          },
+          {
+            "id": "sithour",
+            "label": "每日静坐时长",
+            "dir": "down",
+            "contribution": -0.0978
+          },
+          {
+            "id": "waist",
+            "label": "腰围",
+            "dir": "up",
+            "contribution": 0.0843
+          },
+          {
+            "id": "sleephour",
+            "label": "每日睡眠时长",
+            "dir": "down",
+            "contribution": -0.0386
+          },
+          {
+            "id": "sport_total",
+            "label": "每周运动",
+            "dir": "up",
+            "contribution": 0.0246
+          }
+        ]
+      },
+      "cvd": {
+        "name": "新发心血管病",
+        "predictionYears": 5,
+        "value": "21.8",
+        "level": "高危",
+        "excluded": null,
+        "baselineSurv": 0.781734,
+        "linearPredictor": -0.0014,
+        "cIndex": {
+          "1": 0.626,
+          "2": 0.687,
+          "3": 0.687
+        },
+        "sampleSize": 3396,
+        "events": 1898,
+        "top5": [
+          {
+            "id": "stroke_family",
+            "label": "脑卒中家族史",
+            "dir": "up",
+            "contribution": 0.06
+          },
+          {
+            "id": "waist",
+            "label": "腰围",
+            "dir": "up",
+            "contribution": 0.0346
+          },
+          {
+            "id": "sleephour",
+            "label": "每日睡眠时长",
+            "dir": "down",
+            "contribution": -0.0287
+          },
+          {
+            "id": "sithour",
+            "label": "每日静坐时长",
+            "dir": "down",
+            "contribution": -0.0257
+          },
+          {
+            "id": "dm2_family",
+            "label": "糖尿病家族史",
+            "dir": "down",
+            "contribution": -0.0246
+          }
+        ]
+      },
+      "ht": {
+        "name": "新发高血压",
+        "predictionYears": 5,
+        "value": "21.4",
+        "level": "高危",
+        "excluded": null,
+        "baselineSurv": 0.795492,
+        "linearPredictor": 0.0526,
+        "cIndex": {
+          "1": 0.647,
+          "2": 0.728,
+          "3": 0.75
+        },
+        "sampleSize": 2936,
+        "events": 818,
+        "top5": [
+          {
+            "id": "sex",
+            "label": "性别",
+            "dir": "up",
+            "contribution": 0.1884
+          },
+          {
+            "id": "smoke",
+            "label": "吸烟状况",
+            "dir": "down",
+            "contribution": -0.111
+          },
+          {
+            "id": "dm2_family",
+            "label": "糖尿病家族史",
+            "dir": "down",
+            "contribution": -0.0423
+          },
+          {
+            "id": "sleephour",
+            "label": "每日睡眠时长",
+            "dir": "down",
+            "contribution": -0.0398
+          },
+          {
+            "id": "stroke_family",
+            "label": "脑卒中家族史",
+            "dir": "up",
+            "contribution": 0.027
+          }
+        ]
+      }
+    }
+  },
+  "layer2": {
+    "layer": 2,
+    "summary": "您的未来 5 年新发高血压风险中等。主要与收缩压、性别有关。",
+    "primary": "ht",
+    "layerSummary": "根据目前的信息，LDL-C、收缩压对你的风险影响相对较大。继续补充更精细的指标后，我会给出更准确的评估。",
+    "alerts": [
+      {
+        "name": "2型糖尿病",
+        "message": "您的血糖指标已达到2型糖尿病诊断标准（中国2型糖尿病防治指南 2020），建议前往医院内分泌科确诊并规范管理。",
+        "department": "内分泌科",
+        "triggeredBy": [
+          "空腹血糖 ≥ 7.0 mmol/L",
+          "糖化血红蛋白 ≥ 6.5%"
+        ]
+      }
+    ],
+    "cards": {
+      "t2d": {
+        "name": "新发糖尿病",
+        "predictionYears": 5,
+        "value": "4.1",
+        "level": "低危",
+        "excluded": "diagnostic",
+        "baselineSurv": 0.947678,
+        "linearPredictor": -0.2509,
+        "cIndex": {
+          "1": 0.667,
+          "2": 0.722,
+          "3": 0.733
+        },
+        "sampleSize": 3904,
+        "events": 961,
+        "top5": [
+          {
+            "id": "tc",
+            "label": "总胆固醇 (TC)",
+            "dir": "down",
+            "contribution": -1.4965
+          },
+          {
+            "id": "ldl",
+            "label": "LDL-C",
+            "dir": "up",
+            "contribution": 0.7184
+          },
+          {
+            "id": "dm2_family",
+            "label": "糖尿病家族史",
+            "dir": "up",
+            "contribution": 0.2201
+          },
+          {
+            "id": "fbg",
+            "label": "空腹血糖",
+            "dir": "up",
+            "contribution": 0.1936
+          },
+          {
+            "id": "hba1c",
+            "label": "糖化血红蛋白",
+            "dir": "up",
+            "contribution": 0.1115
+          }
+        ]
+      },
+      "cvd": {
+        "name": "新发心血管病",
+        "predictionYears": 5,
+        "value": "14.5",
+        "level": "中危",
+        "excluded": null,
+        "baselineSurv": 0.781734,
+        "linearPredictor": -0.4513,
+        "cIndex": {
+          "1": 0.626,
+          "2": 0.687,
+          "3": 0.687
+        },
+        "sampleSize": 3396,
+        "events": 1898,
+        "top5": [
+          {
+            "id": "tc",
+            "label": "总胆固醇 (TC)",
+            "dir": "down",
+            "contribution": -0.6476
+          },
+          {
+            "id": "ldl",
+            "label": "LDL-C",
+            "dir": "up",
+            "contribution": 0.321
+          },
+          {
+            "id": "drugdiab",
+            "label": "降糖药使用",
+            "dir": "down",
+            "contribution": -0.0773
+          },
+          {
+            "id": "stroke_family",
+            "label": "脑卒中家族史",
+            "dir": "up",
+            "contribution": 0.06
+          },
+          {
+            "id": "hdl",
+            "label": "HDL-C",
+            "dir": "up",
+            "contribution": 0.0422
+          }
+        ]
+      },
+      "ht": {
+        "name": "新发高血压",
+        "predictionYears": 5,
+        "value": "15.3",
+        "level": "中危",
+        "excluded": null,
+        "baselineSurv": 0.795492,
+        "linearPredictor": -0.3205,
+        "cIndex": {
+          "1": 0.647,
+          "2": 0.728,
+          "3": 0.75
+        },
+        "sampleSize": 2936,
+        "events": 818,
+        "top5": [
+          {
+            "id": "tc",
+            "label": "总胆固醇 (TC)",
+            "dir": "down",
+            "contribution": -0.4769
+          },
+          {
+            "id": "sbp",
+            "label": "收缩压",
+            "dir": "up",
+            "contribution": 0.2063
+          },
+          {
+            "id": "sex",
+            "label": "性别",
+            "dir": "up",
+            "contribution": 0.1884
+          },
+          {
+            "id": "smoke",
+            "label": "吸烟状况",
+            "dir": "down",
+            "contribution": -0.111
+          },
+          {
+            "id": "tg",
+            "label": "甘油三酯 (TG)",
+            "dir": "up",
+            "contribution": 0.0668
+          }
+        ]
+      }
+    }
+  },
+  "why_cvd_layer1": {
+    "oid": "cvd",
+    "title": "为什么我的新发心血管病风险是这样？",
+    "factors": [
+      {
+        "label": "脑卒中家族史",
+        "dir": "up",
+        "note": ""
+      },
+      {
+        "label": "腰围",
+        "dir": "up",
+        "note": "腰围反映腹型肥胖，与糖尿病、心血管风险关系密切。"
+      },
+      {
+        "label": "每日睡眠时长",
+        "dir": "down",
+        "note": "睡眠过短或过长都可能与代谢异常相关，一般建议 7~8 小时。"
+      },
+      {
+        "label": "每日静坐时长",
+        "dir": "down",
+        "note": "久坐时间越长慢病风险越高，建议每小时起身活动。"
+      },
+      {
+        "label": "糖尿病家族史",
+        "dir": "down",
+        "note": "糖尿病家族史提示遗传易感性较高，属不可改变因素，但建议更早、更规律筛查。"
+      }
+    ],
+    "advice": "基于基础信息评估，您的5年新发心血管病风险偏高。强烈建议进行血液检查，进一步明确代谢指标状况。"
+  }
+}

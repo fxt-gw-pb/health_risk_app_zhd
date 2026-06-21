@@ -1,0 +1,102 @@
+{
+  "_doc": "手机内『演示套壳』的分步动作脚本（非真实接口）。时间单位=秒，t 为全片主时钟。每个 step 的 at=相对本场景起点的秒数。UI 细节见 02-小程序UI还原规范.md，报告数字见 report-data.json。",
+  "stage": { "width": 1920, "height": 1080, "fps": 30, "totalDurationSec": 49.5, "bg": "深蓝墨色科技底 + 细网格/光流" },
+  "phone": { "aspect": "竖屏 ~9:19.5", "noteScreenScale": "手机内 UI 按真实小程序移动端比例渲染（max-w-md 容器），整机在舞台一侧" },
+  "persona": { "name": "李先生", "sex": "男", "age": 58, "height": 174, "weight": 86, "bmi": "28.4(肥胖)" },
+  "scenes": [
+    {
+      "id": "S0", "title": "开场", "t0": 0.0, "t1": 3.5,
+      "phone": { "screen": "off→welcome", "steps": [
+        { "at": 0.2, "action": "phone_slide_in" },
+        { "at": 1.0, "action": "screen_power_on", "to": "welcome_top" }
+      ] }
+    },
+    {
+      "id": "S1", "title": "主页", "t0": 3.5, "t1": 8.5,
+      "phone": { "screen": "welcome", "steps": [
+        { "at": 0.2, "action": "highlight", "target": "title_health_risk" },
+        { "at": 1.6, "action": "scroll_to", "target": "disease_cards" },
+        { "at": 2.0, "action": "highlight_sequence", "targets": ["糖尿病", "高血压", "心血管病"] },
+        { "at": 3.4, "action": "scroll_to", "target": "cta_start" },
+        { "at": 4.2, "action": "tap", "target": "cta_start", "label": "开始评估" }
+      ] }
+    },
+    {
+      "id": "S2", "title": "对话问答", "t0": 8.5, "t1": 22.0,
+      "phone": { "screen": "chat", "header": { "currentLayer": 1 }, "steps": [
+        { "at": 0.1, "action": "ai_bubble", "text": "您好，我是您的健康生活方式助手 🌿 我可以帮您评估慢病风险、解读体检指标、给出生活方式建议……" },
+        { "at": 1.5, "action": "ai_bubble", "text": "请问您今年多大年纪？（岁）" },
+        { "at": 2.3, "action": "composer", "type": "number", "unit": "岁" },
+        { "at": 2.6, "action": "type_into_input", "text": "58" },
+        { "at": 3.2, "action": "send", "userBubble": "58" },
+        { "at": 3.6, "action": "ai_bubble", "text": "您的性别是？" },
+        { "at": 4.1, "action": "composer", "type": "select", "chips": ["男", "女"] },
+        { "at": 4.6, "action": "tap_chip", "value": "男", "userBubble": "男" },
+        { "at": 5.2, "action": "ai_bubble", "text": "您平均每天睡几个小时？" },
+        { "at": 5.9, "action": "composer", "type": "number", "unit": "小时" },
+        { "at": 6.2, "action": "type_into_input", "text": "晚上一般十二点睡，早上六点半起", "note": "演示自然语言输入" },
+        { "at": 7.4, "action": "send", "userBubble": "晚上一般十二点睡，早上六点半起" },
+        { "at": 7.8, "action": "confirm_chip", "text": "已记录 · 每日睡眠时长：6.5小时", "emphasis": true, "hold": 2.0, "note": "★ 自然语言理解，给足停留" },
+        { "at": 9.6, "action": "ai_bubble", "text": "请问您的身高（cm）和体重（kg）大约是多少？我来帮您算 BMI ～ 不清楚可以跳过" },
+        { "at": 10.3, "action": "composer", "type": "bmi" },
+        { "at": 10.6, "action": "type_into_two_inputs", "height": "174", "weight": "86" },
+        { "at": 11.4, "action": "preview", "text": "✨ 自动算出 BMI ≈ 28.4（肥胖）" },
+        { "at": 11.9, "action": "tap", "target": "完成", "userBubble": "身高 174cm · 体重 86kg" },
+        { "at": 12.3, "action": "confirm_chip", "text": "已记录 · 身高 174cm、体重 86kg，帮您算得 BMI ≈ 28.4（肥胖）" },
+        { "at": 13.4, "action": "ai_bubble", "text": "直系亲属里有人得过糖尿病吗？" },
+        { "at": 13.9, "action": "composer", "type": "select", "chips": ["无", "有"] },
+        { "at": 14.2, "action": "tap_chip", "value": "有", "userBubble": "有" },
+        { "at": 14.9, "action": "ai_bubble", "text": "您本人被医生确诊过高血压吗？" },
+        { "at": 15.4, "action": "composer", "type": "select", "chips": ["否", "是"] },
+        { "at": 15.8, "action": "tap", "target": "跳过", "userBubble": "跳过", "muted": true, "note": "演示一键跳过" }
+      ] }
+    },
+    {
+      "id": "S3", "title": "风险报告", "t0": 22.0, "t1": 32.0,
+      "phone": { "screen": "chat", "steps": [
+        { "at": 0.1, "action": "layer_summary_card", "title": "阶段小结 · 基础信息", "text": "根据目前的信息，糖尿病家族史、性别对你的风险影响相对较大。其中像年龄、家族史这类无法改变，但可以通过管理体重、运动和饮食等可改变因素来降低整体风险。继续补充更精细的指标后，我会给出更准确的评估。" },
+        { "at": 1.8, "action": "composer", "type": "choice", "options": ["继续补充「血液检查」指标", "直接看风险报告"] },
+        { "at": 2.3, "action": "tap", "target": "直接看风险报告" },
+        { "at": 2.8, "action": "report_enter", "dataRef": "report-data.json#layer1" },
+        { "at": 3.2, "action": "report_summary", "text": "您的未来 5 年新发心血管病风险偏高。主要与脑卒中家族史、腰围有关。" },
+        { "at": 3.8, "action": "count_up_cards", "cards": { "糖尿病": "6.6%", "心血管病": "21.8%", "高血压": "21.4%" }, "selected": "心血管病" },
+        { "at": 5.2, "action": "fill_riskbar", "level": "高危", "bigNumber": "21.8%" },
+        { "at": 5.8, "action": "grow_top5", "outcome": "cvd", "dataRef": "report-data.json#layer1.cards.cvd.top5" },
+        { "at": 7.6, "action": "tap", "target": "为什么会这样？" },
+        { "at": 8.0, "action": "why_card", "dataRef": "report-data.json#why_cvd_layer1" }
+      ] }
+    },
+    {
+      "id": "S4", "title": "自由对话", "t0": 32.0, "t1": 39.0,
+      "phone": { "screen": "chat", "composerType": "postreport", "steps": [
+        { "at": 0.2, "action": "type_into_input", "text": "我这种情况，运动应该怎么安排？" },
+        { "at": 1.4, "action": "send", "userBubble": "我这种情况，运动应该怎么安排？" },
+        { "at": 1.8, "action": "typing_dots" },
+        { "at": 2.4, "action": "ai_stream", "text": "建议以中等强度有氧为主，比如快走、骑车、游泳，每周累计 150 分钟以上，分 4–5 次完成；再加 2 次力量练习。久坐时每小时起身活动几分钟。运动循序渐进，如有胸闷气促请停下并就医。", "streamSeconds": 3.2 },
+        { "at": 6.0, "action": "sources", "items": ["[1] 中国人群身体活动指南（2021）", "[2] 中国 2 型糖尿病防治指南（2020）"] }
+      ] }
+    },
+    {
+      "id": "S5", "title": "进阶+诊断", "t0": 39.0, "t1": 46.0,
+      "phone": { "screen": "chat", "header": { "currentLayer": 2 }, "steps": [
+        { "at": 0.2, "action": "tap", "target": "继续补充「血液检查」让评估更准" },
+        { "at": 0.9, "action": "fast_fill_montage", "items": { "收缩压": "136", "舒张压": "84", "空腹血糖": "7.4", "糖化血红蛋白": "6.7", "总胆固醇": "5.4", "甘油三酯": "2.2" }, "durationSec": 2.4 },
+        { "at": 3.6, "action": "report_update", "dataRef": "report-data.json#layer2" },
+        { "at": 3.9, "action": "alert_banner", "tone": "amber", "text": "就医提醒：您的血糖指标已达到 2 型糖尿病诊断标准（中国 2 型糖尿病防治指南 2020），建议前往医院内分泌科确诊并规范管理。" },
+        { "at": 4.8, "action": "card_to_suspected", "card": "糖尿病", "badge": "疑似已患" },
+        { "at": 5.4, "action": "update_cards", "cards": { "心血管病": "14.5%", "高血压": "15.3%" } }
+      ] }
+    },
+    {
+      "id": "S6", "title": "收尾", "t0": 46.0, "t1": 49.5,
+      "phone": { "screen": "fade_out" },
+      "stage": { "steps": [
+        { "at": 0.3, "action": "brand_lockup", "name": "智评慢病", "logo": "assets/logo.png" },
+        { "at": 0.8, "action": "show_qr", "asset": "assets/qrcode.png" },
+        { "at": 1.2, "action": "big_text", "text": "扫码，立即测一测" },
+        { "at": 1.6, "action": "sub_text", "text": "糖尿病 · 高血压 · 心血管病 · 5 年风险自测" },
+        { "at": 2.0, "action": "disclaimer", "text": "本工具仅供健康风险参考，不替代医生诊断；如有不适请及时就医。" }
+      ] }
+    }
+  ]
+}
