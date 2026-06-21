@@ -13,7 +13,7 @@ export default function AppHeader() {
           {/* 医疗主题头像：AI 输出时呼吸脉冲 */}
           <AiAvatar size={32} pulse={state.busy} />
           <div className="leading-tight">
-            <div className="text-[14px] font-black tracking-tight text-slate-800">健康风险助手</div>
+            <div className="text-[14px] font-black tracking-tight text-slate-800">智评慢病</div>
             <div className="text-[10px] font-medium text-slate-400">慢病风险 · 生活方式</div>
           </div>
         </div>

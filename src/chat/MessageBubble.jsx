@@ -1,17 +1,16 @@
 // src/chat/MessageBubble.jsx
-import { HeartPulse } from 'lucide-react';
 
-// 医疗 / 健康主题的 AI 头像：青→蓝渐变徽章 + 心率脉冲符号 +（可选）在线脉冲环。
+// 品牌 Logo（智评慢病：蓝青心形＋脉冲）。放在 public/，用 BASE_URL 适配 Pages 子路径。
+const LOGO = import.meta.env.BASE_URL + 'logo.png';
+
+// AI 头像：白底圆形承载品牌 Logo +（可选）在线脉冲环。
 // pulse=true 时外环呼吸扩散，用于「AI 正在思考 / 输出」状态。
 export function AiAvatar({ size = 32, pulse = false }) {
   return (
     <span className="relative grid shrink-0 place-items-center" style={{ width: size, height: size }}>
       {pulse && <span className="absolute inset-0 rounded-full bg-cyan-400/40 animate-pulse-ring" />}
-      <span
-        className="relative grid h-full w-full place-items-center rounded-full text-white ring-1 ring-white/50 shadow-md shadow-cyan-500/30"
-        style={{ background: 'linear-gradient(135deg,#22D3EE 0%,#38BDF8 45%,#4F8CFF 100%)' }}
-      >
-        <HeartPulse size={Math.round(size * 0.52)} strokeWidth={2.4} />
+      <span className="relative grid h-full w-full place-items-center overflow-hidden rounded-full bg-white ring-1 ring-slate-200/80 shadow-md shadow-cyan-500/20">
+        <img src={LOGO} alt="智评慢病" className="h-[80%] w-[80%] object-contain" />
       </span>
     </span>
   );

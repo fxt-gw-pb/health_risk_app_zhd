@@ -1,10 +1,13 @@
 // src/screens/WelcomeScreen.jsx
 // 面向普通居民的高级感首页：讲清「做什么 / 怎么用」，淡化模型与队列等专业术语。
 import {
-  HeartPulse, Droplet, Activity, Heart, ArrowRight,
+  Droplet, Activity, Heart, ArrowRight,
   MessagesSquare, Gauge, Leaf, Gift, Lock, BookOpenCheck, ChevronRight, ShieldCheck,
 } from 'lucide-react';
 import { useStore } from '../app/store';
+
+// 品牌 Logo（智评慢病）。public/ 资源，用 BASE_URL 适配 Pages 子路径。
+const LOGO = import.meta.env.BASE_URL + 'logo.png';
 
 const DISEASES = [
   { icon: Droplet, label: '糖尿病', desc: '了解血糖相关风险', tint: 'text-emerald-500', bg: 'bg-emerald-50', ring: 'ring-emerald-100' },
@@ -35,12 +38,11 @@ export default function WelcomeScreen() {
       <div className="relative mx-auto max-w-md px-6 pb-12 pt-14">
         {/* 品牌徽标——医疗主题（心率脉冲），外环呼吸光晕 */}
         <div className="flex items-center gap-2.5 anim-fade-up d1">
-          <span className="halo grid h-11 w-11 place-items-center rounded-2xl text-white shadow-float ring-1 ring-white/50 anim-pop"
-            style={{ background: 'linear-gradient(135deg,#22D3EE,#38BDF8 45%,#4F8CFF)' }}>
-            <HeartPulse size={22} strokeWidth={2.4} />
+          <span className="halo grid h-11 w-11 place-items-center overflow-hidden rounded-2xl bg-white shadow-float ring-1 ring-slate-200/70 anim-pop">
+            <img src={LOGO} alt="智评慢病" className="h-[84%] w-[84%] object-contain" />
           </span>
           <div className="leading-tight">
-            <div className="text-[15px] font-black text-slate-800">健康风险助手</div>
+            <div className="text-[15px] font-black text-slate-800">智评慢病</div>
             <div className="text-[11px] font-medium text-slate-400">慢病风险 · 生活方式</div>
           </div>
         </div>
