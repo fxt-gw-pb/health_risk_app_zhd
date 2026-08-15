@@ -2,8 +2,24 @@
 // 问诊编排逻辑的烟雾测试（纯逻辑，不依赖 React/浏览器）。
 import { describe, it, expect } from 'vitest';
 import {
-  LAYER_VARS, nextVarId, buildLayerSummary, buildReport, buildWhy,
+  LAYER_VARS, QUESTION_PROMPTS, nextVarId, buildLayerSummary, buildReport, buildWhy,
 } from '../questionFlow';
+
+describe('问题提示语', () => {
+  it('每个问卷变量都有明确提示语', () => {
+    for (const id of Object.values(LAYER_VARS).flat()) {
+      expect(QUESTION_PROMPTS[id], id).toBeTruthy();
+      expect(QUESTION_PROMPTS[id], id).toContain('（');
+    }
+  });
+
+  it('运动题说明三种强度及现有两栏的填写口径', () => {
+    expect(QUESTION_PROMPTS.sport_total).toContain('高强度');
+    expect(QUESTION_PROMPTS.sport_total).toContain('中等强度');
+    expect(QUESTION_PROMPTS.sport_total).toContain('低强度');
+    expect(QUESTION_PROMPTS.sport_total).toContain('只收集高、低强度两栏');
+  });
+});
 
 describe('问题调度 nextVarId', () => {
   it('按层内顺序返回首个未作答题', () => {
