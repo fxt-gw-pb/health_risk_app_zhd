@@ -57,7 +57,7 @@ function QuestionComposer({ pending, dispatch }) {
         <div className="relative flex-1">
           <input
             type="text" inputMode="text"
-            placeholder={v.type === 'select' ? '或直接打字回答…' : '输入实际数值或直接描述…'}
+            placeholder={v.type === 'select' ? '或直接打字回答…' : (v.displayMean != null ? `输入数值（参考 ${v.displayMean}）或直接描述` : '输入数值或直接描述…')}
             className="w-full rounded-2xl border-2 border-slate-100 bg-slate-50 px-4 py-3 text-base font-medium text-slate-700 outline-none transition focus:border-[#4F8CFF] focus:bg-white"
             value={text}
             onChange={(e) => setText(e.target.value)}
@@ -122,12 +122,12 @@ function SportComposer({ dispatch }) {
     <div className="space-y-2.5">
       <div className="grid grid-cols-2 gap-2">
         <div className="relative">
-          <input type="number" inputMode="decimal" placeholder="高强度小时数" className={box} value={high} min={0} step={0.5}
+          <input type="number" inputMode="decimal" placeholder="高强度" className={box} value={high} min={0}
             onChange={(e) => setHigh(e.target.value)} onWheel={(e) => e.target.blur()} />
           <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[11px] font-bold text-slate-400">小时/周</span>
         </div>
         <div className="relative">
-          <input type="number" inputMode="decimal" placeholder="低强度小时数" className={box} value={low} min={0} step={0.5}
+          <input type="number" inputMode="decimal" placeholder="低强度" className={box} value={low} min={0}
             onChange={(e) => setLow(e.target.value)} onWheel={(e) => e.target.blur()} />
           <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[11px] font-bold text-slate-400">小时/周</span>
         </div>
@@ -135,7 +135,7 @@ function SportComposer({ dispatch }) {
       <div className="flex items-center gap-2">
         <p className="flex flex-1 items-center gap-1.5 rounded-xl bg-[#4F8CFF]/5 px-3 py-2 text-xs font-medium text-[#3B7BEA]">
           <Sparkles size={13} />
-          {met != null ? `自动换算 ≈ ${met.toFixed(1)} MET·h/周` : '高 / 低强度任填一项；30 分钟填 0.5'}
+          {met != null ? `自动换算 ≈ ${met.toFixed(1)} MET·h/周` : '高 / 低强度任填一项，自动换算'}
         </p>
         <SkipBtn onClick={() => dispatch({ type: 'SKIP', varId: 'sport_total' })} />
         <button onClick={() => dispatch({ type: 'SPORT', high, low })} disabled={met == null}
